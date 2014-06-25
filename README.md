@@ -1,0 +1,2 @@
+seedproject_templates
+=====================
