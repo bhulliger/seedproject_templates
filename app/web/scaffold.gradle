@@ -2,6 +2,8 @@
 // GWT Gradle Plugin
 // ################################################################################
 scaffold << {
+	println "*** Scaffolding Project " + project.name + " ***"
+
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/" + rootProject.name + ".css").text = "/* put your CSS styling here */"
@@ -13,35 +15,36 @@ scaffold << {
 	projectArray[0] = Character.toUpperCase(projectArray[0]);
 	def entryPointClassName =  new String(rootProjectArray) + new String(projectArray);
 
-	// base package
+	// source packages
 	def base = project.group + "." + rootProject.name + "." + project.name
+	def client = base + ".client"
+	def gin = client + ".gin"
+	def place = client + ".place"
+	def app = client + ".app"
 	
 	sourceSets.main*.java.srcDirs*.each {
 
-		// source packages
-		def client = base + ".client"
-		def gin = client + ".gin"
-		def place = client + ".place"
-		def app = client + ".app"
-
 		// .client ############################################################
-		new File(it.toString() + "/" + client.replaceApp("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + client.replaceApp("\\.", "/") + "/" + entryPointClassName + ".java").text = file(ext.templateBasePath + "/app/web/EntryPoint.java").replaceAll("@className@", entryPointClassName).replaceAll("@package@", client)
+		new File(it.toString() + "/" + client.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + client.replaceAll("\\.", "/") + "/" + entryPointClassName + ".java").text = file(ext.templateBasePath + "/EntryPoint.java").text.replaceAll("@className@", entryPointClassName).replaceAll("@package@", client).replaceAll("@app@", app + ".App").replaceAll("@injector@", gin + ".Injector")
 
 		// .gin ###############################################################
-		new File(it.toString() + "/" + gin.replaceApp("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + gin.replaceApp("\\.", "/") + "/InjectorModule.java").text = file(ext.templatesBasePath + "/app/web/InjectorModule.java").replaceAll("@package@", gin)
-		new File(it.toString() + "/" + gin.replaceApp("\\.", "/") + "/Injector.java").text = file(ext.templatesBasePath + "/app/web/Injector.java").replaceAll("@package@", gin)
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/InjectorModule.java").text = file(ext.templateBasePath + "/InjectorModule.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/Injector.java").text = file(ext.templateBasePath + "/Injector.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
 
 		// .place #############################################################
-		new File(it.toString() + "/" + place.replaceApp("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + place.replaceApp("\\.", "/") + "/AbstractPlace.java").text = file(ext.templatesBasePath + "/app/web/AbstractPlace.java").replaceAll("@package@", place)
+		new File(it.toString() + "/" + place.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + place.replaceAll("\\.", "/") + "/AbstractPlace.java").text = file(ext.templateBasePath + "/AbstractPlace.java").text.replaceAll("@package@", place)
 
 		// .app ###############################################################
-		new File(it.toString() + "/" + app.replaceApp("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + app.replaceApp("\\.", "/") + "/BaseActivity.java").text = file(ext.templatesBasePath + "/app/web/BaseActivity.java").replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceApp("\\.", "/") + "/BaseView.java").text = file(ext.templatesBasePath + "/app/web/BaseView.java").replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceApp("\\.", "/") + "/BaseViewImpl.java").text = file(ext.templatesBasePath + "/app/web/BaseViewImpl.java").replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseActivity.java").text = file(ext.templateBasePath + "/BaseActivity.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseView.java").text = file(ext.templateBasePath + "/BaseView.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseViewImpl.java").text = file(ext.templateBasePath + "/BaseViewImpl.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/App.java").text = file(ext.templateBasePath + "/App.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.java").text = file(ext.templateBasePath + "/AppImpl.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.ui.xml").text = file(ext.templateBasePath + "/AppImpl.ui.xml").text
 	}
 	
 	// gwt.xml
@@ -49,7 +52,7 @@ scaffold << {
 		def entryPointClass = parent.group + "." + rootProject.name + "." + project.name + ".client." + entryPointClassName
 
 		// Module file (*.gwt.xml) ############################################
-		new File(it.toString() + "/" + base.replaceApp("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + base + "/" + rootProject.name + ".gwt.xml").text = file(ext.templatesBasePath + "/module.gwt.xml")
+		new File(it.toString() + "/" + base.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + base.replaceAll("\\.", "/") + "/" + rootProject.name + ".gwt.xml").text = file(ext.templateBasePath + "/module.gwt.xml").text.replaceAll("@module@", rootProject.name).replaceAll("@entryPointClass@", client + "." + entryPointClassName)
 	}
 }

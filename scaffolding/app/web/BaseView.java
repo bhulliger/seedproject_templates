@@ -1,8 +1,8 @@
-import @package@;
+package @package@;
 
 public interface BaseView {
 
-	setPresenter(Presenter presenter);
+	void setPresenter(Presenter presenter);
 	
 	interface Presenter {
 

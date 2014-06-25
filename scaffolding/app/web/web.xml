@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Oracle Corporation//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
 
- <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+	<display-name>@module@</display-name>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- error pages -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/forbidden.html</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/unauthorized.html</location>
+	</error-page>
+
 
  </web-app>
