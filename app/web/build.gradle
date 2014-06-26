@@ -5,8 +5,7 @@ dependencies {
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3', 			version: '0.7'
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3-extras',	version: '0.7'
 	
-	providedCompile		group: 'com.google.gwt.eventbinder', 	name: 'eventbinder-parent', 	version: '1.0.2'
-	providedCompile		group: 'com.google.gwt.eventbinder', 	name: 'eventbinder', 			version: '1.0.2'
+	providedCompile		group: 'com.gwtplatform', 				name: 'gwtp-all', 				version: '1.2.+'
 }
 
 // ############################################################################
@@ -19,7 +18,7 @@ apply plugin: 'gwt'
 gwt {
     gwtVersion='2.6.1'
     modules rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name
-
+    
 	superDev { 
 		noPrecompile=true
 	}

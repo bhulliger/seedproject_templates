@@ -4,7 +4,16 @@
 scaffold << {
 	println "*** Scaffolding Project " + project.name + " ***"
 
-	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name);
+	// source packages
+	def base = project.group + "." + rootProject.name + "." + project.name
+	def client = base + ".client"
+	def gin = client + ".gin"
+	def place = client + ".place"
+	def app = client + ".application"
+	def home = app + ".home"
+	def guice = base + ".server.guice"
+
+	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/" + rootProject.name + ".css").text = "/* put your CSS styling here */"
 	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
@@ -15,53 +24,48 @@ scaffold << {
 	char[] projectArray = project.name.toCharArray();
 	projectArray[0] = Character.toUpperCase(projectArray[0]);
 	def entryPointClassName =  new String(rootProjectArray) + new String(projectArray);
-
-	// source packages
-	def base = project.group + "." + rootProject.name + "." + project.name
-	def client = base + ".client"
-	def gin = client + ".gin"
-	def place = client + ".place"
-	def app = client + ".app"
-	def components = app + ".components"
 	
 	sourceSets.main*.java.srcDirs*.each {
 
+		// Module file (*.gwt.xml) ############################################
+		new File(it.toString() + "/" + base.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + base.replaceAll("\\.", "/") + "/" + rootProject.name + ".gwt.xml").text = file(ext.templateBasePath + "/module.gwt.xml").text.replaceAll("@module@", rootProject.name).replaceAll("@base@", base)
+
 		// .client ############################################################
 		new File(it.toString() + "/" + client.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + client.replaceAll("\\.", "/") + "/" + entryPointClassName + ".java").text = file(ext.templateBasePath + "/client/EntryPoint.java").text.replaceAll("@className@", entryPointClassName).replaceAll("@package@", client).replaceAll("@app@", app + ".App").replaceAll("@injector@", gin + ".Injector")
 
 		// .gin ###############################################################
 		new File(it.toString() + "/" + gin.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/InjectorModule.java").text = file(ext.templateBasePath + "/client/gin/InjectorModule.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App").replaceAll("@appImpl@", app + ".AppImpl")
-		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/Injector.java").text = file(ext.templateBasePath + "/client/gin/Injector.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/ClientModule.java").text = file(ext.templateBasePath + "/client/gin/ClientModule.java").text.replaceAll("@package@", gin).replaceAll("@base@", base)
 
 		// .place #############################################################
 		new File(it.toString() + "/" + place.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + place.replaceAll("\\.", "/") + "/AbstractPlace.java").text = file(ext.templateBasePath + "/client/place/AbstractPlace.java").text.replaceAll("@package@", place)
+		new File(it.toString() + "/" + place.replaceAll("\\.", "/") + "/NameTokens.java").text = file(ext.templateBasePath + "/client/place/NameTokens.java").text.replaceAll("@package@", place)
 
-		// .app ###############################################################
+		// .application #######################################################
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseActivity.java").text = file(ext.templateBasePath + "/client/app/BaseActivity.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseView.java").text = file(ext.templateBasePath + "/client/app/BaseView.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseViewImpl.java").text = file(ext.templateBasePath + "/client/app/BaseViewImpl.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/App.java").text = file(ext.templateBasePath + "/client/app/App.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.java").text = file(ext.templateBasePath + "/client/app/AppImpl.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.ui.xml").text = file(ext.templateBasePath + "/client/app/AppImpl.ui.xml").text.replaceAll("@components@", components)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationModule.java").text = file(ext.templateBasePath + "/client/application/ApplicationModule.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationPresenter.java").text = file(ext.templateBasePath + "/client/application/ApplicationPresenter.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.java").text = file(ext.templateBasePath + "/client/application/ApplicationView.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.ui.xml").text = file(ext.templateBasePath + "/client/application/ApplicationView.ui.xml").text.replaceAll("@base@", base)
 
-		// .app.components ####################################################
-		new File(it.toString() + "/" + components.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Navigation.java").text = file(ext.templateBasePath + "/client/app/Navigation.java").text.replaceAll("@package@", components)
-		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Navigation.ui.xml").text = file(ext.templateBasePath + "/client/app/Navigation.ui.xml").text.replaceAll("@module@", rootProject.name)
-		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/app/Footer.java").text.replaceAll("@package@", components)
-		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/app/Footer.ui.xml").text
-	}
-	
-	// gwt.xml
-	sourceSets.main*.resources.srcDirs*.each {
-		def entryPointClass = parent.group + "." + rootProject.name + "." + project.name + ".client." + entryPointClassName
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Header.java").text = file(ext.templateBasePath + "/client/application/Header.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Header.ui.xml").text = file(ext.templateBasePath + "/client/application/Header.ui.xml").text.replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/application/Footer.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/application/Footer.ui.xml").text.replaceAll("@base@", base)
 
-		// Module file (*.gwt.xml) ############################################
-		new File(it.toString() + "/" + base.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + base.replaceAll("\\.", "/") + "/" + rootProject.name + ".gwt.xml").text = file(ext.templateBasePath + "/module.gwt.xml").text.replaceAll("@module@", rootProject.name).replaceAll("@entryPointClass@", client + "." + entryPointClassName)
+		// .application.home ##################################################
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeModule.java").text = file(ext.templateBasePath + "/client/application/home/HomeModule.java").text.replaceAll("@package@", home)
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomePresenter.java").text = file(ext.templateBasePath + "/client/application/home/HomePresenter.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.ui.xml").text = file(ext.templateBasePath + "/client/application/home/HomeView.ui.xml").text.replaceAll("@base@", base)
+
+		// .server.guice ######################################################
+		new File(it.toString() + "/" + guice.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/GuiceServletConfig.java").text = file(ext.templateBasePath + "/server/guice/GuiceServletConfig.java").text.replaceAll("@package@", guice)
+		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/DispatchServletModule.java").text = file(ext.templateBasePath + "/server/guice/DispatchServletModule.java").text.replaceAll("@package@", guice)
+		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/ServerModule.java").text = file(ext.templateBasePath + "/server/guice/ServerModule.java").text.replaceAll("@package@", guice)
 	}
+
 }
