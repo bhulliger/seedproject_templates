@@ -7,6 +7,7 @@ scaffold << {
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/" + rootProject.name + ".css").text = "/* put your CSS styling here */"
+	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
 
 	// build classname for entryPoint
 	char[] rootProjectArray = rootProject.name.toCharArray();

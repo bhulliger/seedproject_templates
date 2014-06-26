@@ -8,6 +8,13 @@
 		<my:Navigation />
 
 		<b:Container>
+
+			<b:Breadcrumbs>
+				<b:ListItem text="one" />
+				<b:ListItem text="two" />
+				<b:ListItem text="three" />
+			</b:Breadcrumbs>
+
 			<g:Label>container</g:Label>
 		</b:Container>
 
