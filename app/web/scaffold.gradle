@@ -21,30 +21,38 @@ scaffold << {
 	def gin = client + ".gin"
 	def place = client + ".place"
 	def app = client + ".app"
+	def components = app + ".components"
 	
 	sourceSets.main*.java.srcDirs*.each {
 
 		// .client ############################################################
 		new File(it.toString() + "/" + client.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + client.replaceAll("\\.", "/") + "/" + entryPointClassName + ".java").text = file(ext.templateBasePath + "/EntryPoint.java").text.replaceAll("@className@", entryPointClassName).replaceAll("@package@", client).replaceAll("@app@", app + ".App").replaceAll("@injector@", gin + ".Injector")
+		new File(it.toString() + "/" + client.replaceAll("\\.", "/") + "/" + entryPointClassName + ".java").text = file(ext.templateBasePath + "/client/EntryPoint.java").text.replaceAll("@className@", entryPointClassName).replaceAll("@package@", client).replaceAll("@app@", app + ".App").replaceAll("@injector@", gin + ".Injector")
 
 		// .gin ###############################################################
 		new File(it.toString() + "/" + gin.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/InjectorModule.java").text = file(ext.templateBasePath + "/InjectorModule.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
-		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/Injector.java").text = file(ext.templateBasePath + "/Injector.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/InjectorModule.java").text = file(ext.templateBasePath + "/client/gin/InjectorModule.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App").replaceAll("@appImpl@", app + ".AppImpl")
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/Injector.java").text = file(ext.templateBasePath + "/client/gin/Injector.java").text.replaceAll("@package@", gin).replaceAll("@app@", app + ".App")
 
 		// .place #############################################################
 		new File(it.toString() + "/" + place.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + place.replaceAll("\\.", "/") + "/AbstractPlace.java").text = file(ext.templateBasePath + "/AbstractPlace.java").text.replaceAll("@package@", place)
+		new File(it.toString() + "/" + place.replaceAll("\\.", "/") + "/AbstractPlace.java").text = file(ext.templateBasePath + "/client/place/AbstractPlace.java").text.replaceAll("@package@", place)
 
 		// .app ###############################################################
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseActivity.java").text = file(ext.templateBasePath + "/BaseActivity.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseView.java").text = file(ext.templateBasePath + "/BaseView.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseViewImpl.java").text = file(ext.templateBasePath + "/BaseViewImpl.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/App.java").text = file(ext.templateBasePath + "/App.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.java").text = file(ext.templateBasePath + "/AppImpl.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.ui.xml").text = file(ext.templateBasePath + "/AppImpl.ui.xml").text
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseActivity.java").text = file(ext.templateBasePath + "/client/app/BaseActivity.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseView.java").text = file(ext.templateBasePath + "/client/app/BaseView.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/BaseViewImpl.java").text = file(ext.templateBasePath + "/client/app/BaseViewImpl.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/App.java").text = file(ext.templateBasePath + "/client/app/App.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.java").text = file(ext.templateBasePath + "/client/app/AppImpl.java").text.replaceAll("@package@", app)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/AppImpl.ui.xml").text = file(ext.templateBasePath + "/client/app/AppImpl.ui.xml").text.replaceAll("@components@", components)
+
+		// .app.components ####################################################
+		new File(it.toString() + "/" + components.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Navigation.java").text = file(ext.templateBasePath + "/client/app/Navigation.java").text.replaceAll("@package@", components)
+		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Navigation.ui.xml").text = file(ext.templateBasePath + "/client/app/Navigation.ui.xml").text.replaceAll("@module@", rootProject.name)
+		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/app/Footer.java").text.replaceAll("@package@", components)
+		new File(it.toString() + "/" + components.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/app/Footer.ui.xml").text
 	}
 	
 	// gwt.xml

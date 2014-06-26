@@ -17,13 +17,23 @@
     <!-- Any title is fine                         -->
     <!--                                           -->
     <title>@module@</title>
-    
+
+    <!--                                           -->
+    <!-- GWT Bootstrap                             -->
+    <!--                                           -->
+    <!--if [lg IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if IE7]>
+    <link rel="stylesheet" href="@module@/css/font-awesome-ie7.css">
+    <![endif]-->
+
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
     <!--                                           -->
-    <script type="text/javascript" language="javascript" src="@module@/@module@.nocache.js"></script>
+    <script type="text/javascript" src="@module@/@module@.nocache.js"></script>
   </head>
 
   <!--                                           -->
@@ -43,20 +53,5 @@
         in order for this application to display correctly.
       </div>
     </noscript>
-
-    <h1>@module@</h1>
-
-    <table align="center">
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Please enter your name:</td>        
-      </tr>
-      <tr>
-        <td id="nameFieldContainer"></td>
-        <td id="sendButtonContainer"></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
-      </tr>
-    </table>
   </body>
 </html>

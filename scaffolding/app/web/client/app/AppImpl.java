@@ -8,7 +8,8 @@ import com.google.inject.Inject;
 
 public class AppImpl extends Composite implements App {
 
-	interface AppImplUiBinder extends UiBinder<Widget, AppImpl> {}
+	interface AppImplUiBinder extends UiBinder<Widget, AppImpl> {
+	}
 
 	private static AppImplUiBinder uiBinder = GWT.create(AppImplUiBinder.class);
 	
