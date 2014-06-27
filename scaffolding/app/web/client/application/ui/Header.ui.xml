@@ -33,7 +33,6 @@
 					<b:ListDropDown ui:field="authenticatedMenu">
 						<b:AnchorButton dataToggle="DROPDOWN" ui:field="authenticatedUser" />
 						<b:DropDownMenu>
-							<b:ListItem href="#{nameTokens.getProfilePage}" text="{constants.profile}" icon="USER" ui:field="profile" />
 							<b:ListItem text="{constants.signout}" icon="SIGN_OUT" ui:field="signout" />
 						</b:DropDownMenu>
 					</b:ListDropDown>

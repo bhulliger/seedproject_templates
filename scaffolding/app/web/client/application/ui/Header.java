@@ -34,7 +34,6 @@ public class Header extends Composite implements ClickHandler {
 	@UiField ListDropDown authenticatedMenu; // NOSONAR
 	@UiField AnchorButton authenticatedUser; // NOSONAR
 	@UiField ListItem signout; // NOSONAR
-	@UiField ListItem profile; // NOSONAR
 	
 	@UiField Div anonymous; // NOSONAR
 	@UiField Div authenticated; // NOSONAR
@@ -60,17 +59,7 @@ public class Header extends Composite implements ClickHandler {
 
 			}
 		});
-		signout.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				home.setActive(false);
-				authenticatedMenu.setActive(true);
-
-			}
-		});
-
+		
 		home.addClickHandler(new ClickHandler() {
 
 			@Override
