@@ -1,5 +1,8 @@
 package @package@;
 
+import @base@.client.i18n.AppMessages;
+import @base@.client.i18n.AppConfig;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,14 +18,20 @@ public class Footer extends Composite {
 	private static FooterUiBinder uiBinder = GWT.create(FooterUiBinder.class);
 
 	@UiField
-	Label version; // NOSONAR
+	Label version, buildDate; // NOSONAR
 
 	public Footer() {
-		super();
+		// FIXME use gin injection for resources.
+		AppMessages messages = GWT.create(AppMessages.class);
+		AppConfig config = GWT.create(AppConfig.class);
 
-		// version = new Label(messages.build(config.version()));
+		version = new Label();
+		buildDate = new Label();
 
 		initWidget(uiBinder.createAndBindUi(this));
+
+		version.setText(messages.buildNumber(config.version()));
+		buildDate.setText(messages.buildDate(config.buildDate()));
 	}
 	
 

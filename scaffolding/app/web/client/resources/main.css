@@ -1,0 +1,6 @@
+/** main.css */
+
+.app-headerForm > form > input, button {
+	font-size: 0.8em;
+	margin: 0 5px 0 5px;
+}

@@ -12,10 +12,11 @@ scaffold << {
 	def app = client + ".application"
 	def ui = app + ".ui"
 	def home = app + ".home"
+	def i18n = client + ".i18n"
+	def resources = client + ".resources"
 
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
-	new File(webAppDir.toString() + "/" + rootProject.name + ".css").text = "/* put your CSS styling here */"
 	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
 
 	// build classname for entryPoint
@@ -62,6 +63,22 @@ scaffold << {
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomePresenter.java").text = file(ext.templateBasePath + "/client/application/home/HomePresenter.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.ui.xml").text = file(ext.templateBasePath + "/client/application/home/HomeView.ui.xml").text.replaceAll("@base@", base)
-}
 
+		// .i18n ##############################################################
+		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/") + "/AppConstants.java").text = file(ext.templateBasePath + "/client/i18n/AppConstants.java").text.replaceAll("@package@", i18n)
+		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/") + "/AppMessages.java").text = file(ext.templateBasePath + "/client/i18n/AppMessages.java").text.replaceAll("@package@", i18n)
+		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/") + "/AppConfig.java").text = file(ext.templateBasePath + "/client/i18n/AppConfig.java").text.replaceAll("@package@", i18n).replaceAll("@version@", version).replaceAll("@buildDate@", new Date().toString())
+
+		// .resources #########################################################
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/AppResources.java").text = file(ext.templateBasePath + "/client/resources/AppResources.java").text.replaceAll("@package@", resources)
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/MainCss.java").text = file(ext.templateBasePath + "/client/resources/MainCss.java").text.replaceAll("@package@", resources)
+	}
+
+	sourceSets.main*.resources.srcDirs*.each {
+		// .resources #########################################################
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/main.css").text = file(ext.templateBasePath + "/client/resources/main.css").text
+	}
 }
