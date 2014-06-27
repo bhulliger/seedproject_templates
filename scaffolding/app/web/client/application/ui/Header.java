@@ -13,8 +13,6 @@ public class Header extends Composite {
 	private static HeaderUiBinder uiBinder = GWT.create(HeaderUiBinder.class);
 
 	public Header() {
-		super();
-
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

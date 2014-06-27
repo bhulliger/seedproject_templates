@@ -24,6 +24,7 @@ import com.gwtplatform.mvp.client.annotations.ErrorPlace;
 import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
+import com.gwtplatform.mvp.client.proxy.DefaultPlaceManager;
 
 /**
  * See more on setting up the PlaceManager on <a
@@ -32,12 +33,12 @@ import com.gwtplatform.mvp.client.gin.DefaultModule;
 public class ClientModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
-        install(new DefaultModule());
+        install(new DefaultModule(DefaultPlaceManager.class));
         install(new ApplicationModule());
 
         // DefaultPlaceManager Places
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.home);
-        bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.home);
-        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.home);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
     }
 }

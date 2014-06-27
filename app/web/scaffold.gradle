@@ -10,8 +10,8 @@ scaffold << {
 	def gin = client + ".gin"
 	def place = client + ".place"
 	def app = client + ".application"
+	def ui = app + ".ui"
 	def home = app + ".home"
-	def guice = base + ".server.guice"
 
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
@@ -49,10 +49,12 @@ scaffold << {
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.java").text = file(ext.templateBasePath + "/client/application/ApplicationView.java").text.replaceAll("@package@", app)
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.ui.xml").text = file(ext.templateBasePath + "/client/application/ApplicationView.ui.xml").text.replaceAll("@base@", base)
 
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Header.java").text = file(ext.templateBasePath + "/client/application/Header.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Header.ui.xml").text = file(ext.templateBasePath + "/client/application/Header.ui.xml").text.replaceAll("@base@", base)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/application/Footer.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/application/Footer.ui.xml").text.replaceAll("@base@", base)
+		// .application.ui ####################################################
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Header.java").text = file(ext.templateBasePath + "/client/application/ui/Header.java").text.replaceAll("@package@", ui).replaceAll("@base@", base)
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Header.ui.xml").text = file(ext.templateBasePath + "/client/application/ui/Header.ui.xml").text.replaceAll("@base@", base).replaceAll("@module@", rootProject.name)
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/application/ui/Footer.java").text.replaceAll("@package@", ui).replaceAll("@base@", base)
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/application/ui/Footer.ui.xml").text.replaceAll("@base@", base)
 
 		// .application.home ##################################################
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/")).mkdirs()
@@ -60,12 +62,6 @@ scaffold << {
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomePresenter.java").text = file(ext.templateBasePath + "/client/application/home/HomePresenter.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.ui.xml").text = file(ext.templateBasePath + "/client/application/home/HomeView.ui.xml").text.replaceAll("@base@", base)
-
-		// .server.guice ######################################################
-		new File(it.toString() + "/" + guice.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/GuiceServletConfig.java").text = file(ext.templateBasePath + "/server/guice/GuiceServletConfig.java").text.replaceAll("@package@", guice)
-		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/DispatchServletModule.java").text = file(ext.templateBasePath + "/server/guice/DispatchServletModule.java").text.replaceAll("@package@", guice)
-		new File(it.toString() + "/" + guice.replaceAll("\\.", "/") + "/ServerModule.java").text = file(ext.templateBasePath + "/server/guice/ServerModule.java").text.replaceAll("@package@", guice)
-	}
+}
 
 }

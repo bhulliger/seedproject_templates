@@ -11,30 +11,4 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-	<!-- Guice -->
-	<listener>
-        <listener-class>@package@.server.guice.GuiceServletConfig</listener-class>
-    </listener>
-
-    <filter>
-        <filter-name>guiceFilter</filter-name>
-        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>guiceFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-	<!-- error pages -->
-	<error-page>
-		<error-code>403</error-code>
-		<location>/forbidden.html</location>
-	</error-page>
-	<error-page>
-		<error-code>401</error-code>
-		<location>/unauthorized.html</location>
-	</error-page>
-
-
  </web-app>

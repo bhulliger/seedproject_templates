@@ -18,6 +18,8 @@ package @package@;
 
 import javax.inject.Inject;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -30,7 +32,10 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     }
 
     @UiField
-    SimplePanel main;
+    SimplePanel mainContentPanel; // NOSONAR
+
+    @UiField
+    Element loadingMessage; // NOSONAR
 
     @Inject
     public ApplicationView(Binder uiBinder) {
@@ -40,9 +45,14 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     @Override
     public void setInSlot(Object slot, IsWidget content) {
         if (slot == ApplicationPresenter.SLOT_SetMainContent) {
-            main.setWidget(content);
+            mainContentPanel.setWidget(content);
         } else {
             super.setInSlot(slot, content);
         }
+    }
+
+    @Override
+    public void showLoading(boolean visible) {
+        loadingMessage.getStyle().setVisibility(visible ? Visibility.VISIBLE : Visibility.HIDDEN);
     }
 }

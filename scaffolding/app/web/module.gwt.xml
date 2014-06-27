@@ -8,6 +8,8 @@
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
 
 <module rename-to='seedproject'>
+  <inherits name="com.google.common.base.Base"/>
+  
   <!-- Inherit the core Web Toolkit stuff. -->
   <inherits name='com.google.gwt.user.User' />
 
@@ -37,7 +39,7 @@
 
   <!-- GWTP -->
   <inherits name='com.gwtplatform.dispatch.Dispatch' />
-  <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' />
+  <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint'/>
 
   <!-- Specify the MVP Module. -->
   <set-configuration-property name="gin.ginjector.modules" 

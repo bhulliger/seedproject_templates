@@ -16,29 +16,49 @@
 
 package @package@;
 
+import javax.inject.Inject;
+
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
+import com.gwtplatform.mvp.client.annotations.ProxyEvent;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.proxy.LockInteractionEvent;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
+/**
+ * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
+ */
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
-    public interface MyView extends View {
-    }
-
-    @ContentSlot
-    public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<RevealContentHandler<?>>();
 
     @ProxyStandard
     public interface MyProxy extends Proxy<ApplicationPresenter> {
     }
 
+    public interface MyView extends View {
+        void showLoading(boolean visible);
+    }
+
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();
+
     @Inject
     public ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
         super(eventBus, view, proxy, RevealType.Root);
     }
+
+    /**
+      * We display a short lock message whenever navigation is in progess.
+      *
+      * @param event The {@link LockInteractionEvent}
+      *
+    */
+    @ProxyEvent
+    public void onLockInteraction(LockInteractionEvent event) {
+        getView().showLoading(event.shouldLock());
+    }
+
 }

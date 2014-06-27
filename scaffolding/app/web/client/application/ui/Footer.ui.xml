@@ -1,0 +1,20 @@
+<!-- Footer.ui.xml -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:org.gwtbootstrap3.client.ui'>
+
+	<ui:with type="@base@.client.place.NameTokens" field="nameTokens"></ui:with>
+
+<b:Div b:id="footer">
+    
+		<b:Container>
+			<b:Paragraph emphasis="MUTED">
+			    <g:Label ui:field="version" />
+			</b:Paragraph>
+
+			<g:HTMLPanel>
+        		<g:InlineHyperlink targetHistoryToken="{nameTokens.getHomePage}">Home</g:InlineHyperlink>
+		    </g:HTMLPanel>
+		</b:Container>
+</b:Div>
+
+</ui:UiBinder>
