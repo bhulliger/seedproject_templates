@@ -2,11 +2,11 @@
 // GWT Gradle Plugin
 // ################################################################################
 scaffold << {
-	println "*** Scaffolding Project " + project.name + " ***"
-
 	// source packages
 	def base = project.group + "." + rootProject.name + "." + project.name
 	def client = base + ".client"
+	def shared = base + ".shared"
+	def server = base + ".server"
 	def gin = client + ".gin"
 	def place = client + ".place"
 	def app = client + ".application"
@@ -14,6 +14,9 @@ scaffold << {
 	def home = app + ".home"
 	def i18n = client + ".i18n"
 	def resources = client + ".resources"
+	def ws = client + ".ws"
+	def model = shared + ".model"
+	def wsServer = server + ".ws"
 
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base);
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
@@ -46,12 +49,13 @@ scaffold << {
 		// .application #######################################################
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationModule.java").text = file(ext.templateBasePath + "/client/application/ApplicationModule.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationPresenter.java").text = file(ext.templateBasePath + "/client/application/ApplicationPresenter.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.java").text = file(ext.templateBasePath + "/client/application/ApplicationView.java").text.replaceAll("@package@", app)
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.ui.xml").text = file(ext.templateBasePath + "/client/application/ApplicationView.ui.xml").text.replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationPresenter.java").text = file(ext.templateBasePath + "/client/application/ApplicationPresenter.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.java").text = file(ext.templateBasePath + "/client/application/ApplicationView.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
+		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.ui.xml").text = file(ext.templateBasePath + "/client/application/ApplicationView.ui.xml").text.replaceAll("@base@", base).replaceAll("@base@", base)
 
 		// .application.ui ####################################################
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/UiModule.java").text = file(ext.templateBasePath + "/client/application/ui/UiModule.java").text.replaceAll("@package@", ui)
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Header.java").text = file(ext.templateBasePath + "/client/application/ui/Header.java").text.replaceAll("@package@", ui).replaceAll("@base@", base)
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Header.ui.xml").text = file(ext.templateBasePath + "/client/application/ui/Header.ui.xml").text.replaceAll("@base@", base).replaceAll("@module@", rootProject.name)
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/application/ui/Footer.java").text.replaceAll("@package@", ui).replaceAll("@base@", base)
@@ -60,6 +64,7 @@ scaffold << {
 		// .application.home ##################################################
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeModule.java").text = file(ext.templateBasePath + "/client/application/home/HomeModule.java").text.replaceAll("@package@", home)
+		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeUiHandlers.java").text = file(ext.templateBasePath + "/client/application/home/HomeUiHandlers.java").text.replaceAll("@package@", home)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomePresenter.java").text = file(ext.templateBasePath + "/client/application/home/HomePresenter.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.ui.xml").text = file(ext.templateBasePath + "/client/application/home/HomeView.ui.xml").text.replaceAll("@base@", base)
@@ -74,6 +79,21 @@ scaffold << {
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/AppResources.java").text = file(ext.templateBasePath + "/client/resources/AppResources.java").text.replaceAll("@package@", resources)
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/MainCss.java").text = file(ext.templateBasePath + "/client/resources/MainCss.java").text.replaceAll("@package@", resources)
+
+		// client.ws ##########################################################
+		new File(it.toString() + "/" + ws.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/BasicRestClient.java").text = file(ext.templateBasePath + "/client/ws/BasicRestClient.java").text.replaceAll("@package@", ws).replaceAll("@base@", base)
+		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/AbstractRestCallback.java").text = file(ext.templateBasePath + "/client/ws/AbstractRestCallback.java").text.replaceAll("@package@", ws)
+		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/HttpConstants.java").text = file(ext.templateBasePath + "/client/ws/HttpConstants.java").text.replaceAll("@package@", ws)
+		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/AuthenticationDispatcher.java").text = file(ext.templateBasePath + "/client/ws/AuthenticationDispatcher.java").text.replaceAll("@package@", ws)
+
+		// .model #############################################################
+		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + model.replaceAll("\\.", "/") + "/UserDto.java").text = file(ext.templateBasePath + "/shared/model/UserDto.java").text.replaceAll("@package@", model)
+
+		// .server.ws #########################################################
+		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/") + "/BasicRestEndpoint.java").text = file(ext.templateBasePath + "/server/ws/BasicRestEndpoint.java").text.replaceAll("@package@", wsServer)
 	}
 
 	sourceSets.main*.resources.srcDirs*.each {

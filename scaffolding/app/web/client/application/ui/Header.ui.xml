@@ -17,7 +17,7 @@
 		
 		<b:NavbarCollapse b:id="navbar-collapse">
 			<b:NavbarNav>
-				<b:ListItem active="true" ui:field="home" href="#{nameTokens.getHomePage}" text="{constants.home}" />
+				<b:ListItem active="true" ui:field="home" text="{constants.home}" />
 			</b:NavbarNav>
 
 			<b:Div ui:field="anonymous">

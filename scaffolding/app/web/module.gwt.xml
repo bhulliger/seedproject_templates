@@ -16,6 +16,11 @@
   <!-- Gin & Guice -->
   <inherits name="com.google.gwt.inject.Inject" />
 
+  <!-- Resty GWT -->
+  <inherits name="org.fusesource.restygwt.RestyGWT" />
+  <!-- Base64 Encryption package -->
+  <inherits name="com.googlecode.gwt.crypto.Crypto"/>
+
   <!-- Inherit the default GWT style sheet. You can change -->
   <!-- the theme of your GWT application by uncommenting -->
   <!-- any one of the following lines. -->

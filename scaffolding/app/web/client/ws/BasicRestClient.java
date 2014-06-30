@@ -13,25 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-public final class AppResources {
+import org.fusesource.restygwt.client.Options;
+import org.fusesource.restygwt.client.RestService;
 
-	private AppResources() {}
+import @base@.shared.model.UserDto;
 
-	public static final CssResources CSS = GWT.create(CssResources.class);
+@Options(dispatcher = AuthenticationDispatcher.class)
+@Path("/rest/basic")
+public interface BasicRestClient extends RestService {
 
-	public interface CssResources extends ClientBundle {
-
-		@Source("main.css")
-		MainCss main();	
-
-		/** Add further css resources if needed */
-
-	}
+	@GET
+	@Path("/v1/user")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Options(expect = HttpConstants.STATUS_OK)
+	void getUser(AbstractRestCallback<UserDto> user);
 	
-
 }

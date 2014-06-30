@@ -13,25 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-public final class AppResources {
+import @base@.shared.model.UserDto;
 
-	private AppResources() {}
 
-	public static final CssResources CSS = GWT.create(CssResources.class);
+@Stateless
+@Path("/basic")
+public class BasicRestEndpoint {
 
-	public interface CssResources extends ClientBundle {
+	@GET
+	@Path("/v1/user")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUser() {
 
-		@Source("main.css")
-		MainCss main();	
+		UserDto dto = new UserDto();
 
-		/** Add further css resources if needed */
+		// TODO Auto-generated method stub
 
+		return Response.ok(dto).build();
 	}
-	
 
 }

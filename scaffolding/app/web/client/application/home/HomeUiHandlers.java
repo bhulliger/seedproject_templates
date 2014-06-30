@@ -13,25 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import com.gwtplatform.mvp.client.UiHandlers;
 
-public final class AppResources {
+public interface HomeUiHandlers extends UiHandlers {
 
-	private AppResources() {}
+	/** Add UiHandler stuff for the home page here */
 
-	public static final CssResources CSS = GWT.create(CssResources.class);
-
-	public interface CssResources extends ClientBundle {
-
-		@Source("main.css")
-		MainCss main();	
-
-		/** Add further css resources if needed */
-
-	}
-	
-
-}
+} 

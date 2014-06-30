@@ -13,25 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-
-public final class AppResources {
-
-	private AppResources() {}
-
-	public static final CssResources CSS = GWT.create(CssResources.class);
-
-	public interface CssResources extends ClientBundle {
-
-		@Source("main.css")
-		MainCss main();	
-
-		/** Add further css resources if needed */
-
-	}
+public abstract class HttpConstants {
 	
+	public static final int STATUS_OK = 200;
+	public static final int STATUS_CREATED = 201;
+	public static final int STATUS_NO_CONTENT = 204;
+
 
 }

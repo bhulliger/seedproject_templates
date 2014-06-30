@@ -13,25 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+public class UserDto {
 
-public final class AppResources {
+	private String username;
 
-	private AppResources() {}
+	public String getUsername() {
+		return this.username;
+	}
 
-	public static final CssResources CSS = GWT.create(CssResources.class);
-
-	public interface CssResources extends ClientBundle {
-
-		@Source("main.css")
-		MainCss main();	
-
-		/** Add further css resources if needed */
-
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
-
 }

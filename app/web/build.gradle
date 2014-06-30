@@ -2,10 +2,13 @@
 // Dependencies
 // ############################################################################
 dependencies {
+
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3', 			version: '0.7'
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3-extras',	version: '0.7'
 	
 	providedCompile		group: 'com.gwtplatform', 				name: 'gwtp-all', 				version: '1.2.+'
+	providedCompile		group: 'com.googlecode.gwt-crypto', 	name: 'gwt-crypto', 			version: '2.3.0'
+
 }
 
 // ############################################################################

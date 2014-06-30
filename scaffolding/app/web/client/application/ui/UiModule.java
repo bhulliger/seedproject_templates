@@ -13,25 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.inject.Singleton;
+/**
+ * This module makes sure every binder required by our widgets are bound as singleton.
+ */
+public class UiModule extends AbstractGinModule {
 
-public final class AppResources {
-
-	private AppResources() {}
-
-	public static final CssResources CSS = GWT.create(CssResources.class);
-
-	public interface CssResources extends ClientBundle {
-
-		@Source("main.css")
-		MainCss main();	
-
-		/** Add further css resources if needed */
-
-	}
-	
-
+    @Override
+    protected void configure() {
+        // Singleton binders
+        bind(Header.Binder.class).in(Singleton.class);
+        bind(Footer.Binder.class).in(Singleton.class);
+    }	
 }

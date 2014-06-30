@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 ArcBees Inc.
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,9 +16,16 @@
 
 package @package@;
 
+import org.fusesource.restygwt.client.Resource;
+import org.fusesource.restygwt.client.RestServiceProxy;
+
 import @base@.client.application.ApplicationModule;
 import @base@.client.place.NameTokens;
+import @base@.client.ws.BasicRestClient;
 
+import com.google.gwt.core.client.GWT;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.gwtplatform.mvp.client.annotations.DefaultPlace;
 import com.gwtplatform.mvp.client.annotations.ErrorPlace;
 import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
@@ -33,12 +40,25 @@ import com.gwtplatform.mvp.client.proxy.DefaultPlaceManager;
 public class ClientModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
+        
+    	// Singletons -  DefaultModule initializes the DefaultPlaceManager
         install(new DefaultModule(DefaultPlaceManager.class));
-        install(new ApplicationModule());
-
-        // DefaultPlaceManager Places
+        
+        // Constants
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
+        
+        // Presenters
+        install(new ApplicationModule());
+    }
+
+    @Singleton
+    @Provides
+    public BasicRestClient getBasicRestClient() {
+        Resource resource = new Resource(GWT.getHostPageBaseURL());
+        BasicRestClient proxy = GWT.create(BasicRestClient.class);
+        ((RestServiceProxy) proxy).setResource(resource);
+        return proxy;
     }
 }
