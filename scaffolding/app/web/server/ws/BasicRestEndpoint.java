@@ -24,8 +24,6 @@ import javax.ws.rs.core.Response;
 
 import @base@.shared.model.UserDto;
 
-
-@Stateless
 @Path("/basic")
 public class BasicRestEndpoint {
 

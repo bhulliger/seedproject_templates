@@ -1,0 +1,42 @@
+// ############################################################################
+// Common 
+// ############################################################################
+domainObjectTemplate {	
+	id: java.lang.String length=36
+	createDate: java.util.Date update=false
+	createUser: java.lang.String length=50 update=false
+	modificationDate: java.util.Date
+	modificationUser: java.lang.String length=50
+}  
+
+package java.lang {
+	datatype String
+	datatype Boolean
+	datatype Integer
+	datatype Long
+	datatype Double
+	datatype Comparable
+}
+
+package java.util {
+	datatype Date
+	
+	package logging {
+		datatype Level
+	}
+}
+
+package java.math {
+	datatype BigDecimal
+}
+
+// ############################################################################
+// Project specific domain objects
+// ############################################################################
+
+package @package@ {
+	
+	import java.lang.*
+	import java.util.*
+
+}

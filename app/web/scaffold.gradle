@@ -1,5 +1,5 @@
 // ################################################################################
-// GWT Gradle Plugin
+// Scaffolding project structure
 // ################################################################################
 scaffold << {
 	// source packages
@@ -18,7 +18,9 @@ scaffold << {
 	def model = shared + ".model"
 	def wsServer = server + ".ws"
 
-	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base);
+	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base)
+	new File(webAppDir.toString() + "/WEB-INF/logging.properties").text = file(ext.templateBasePath + 'logging.properties').text.replaceAll("@module@", rootProject.name)
+	new File(webAppDir.toString() + "/WEB-INF/appengine-web.xml").text = file(ext.templateBasePath + 'appengine-web.xml').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
 
@@ -93,7 +95,7 @@ scaffold << {
 
 		// .server.ws #########################################################
 		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/") + "/BasicRestEndpoint.java").text = file(ext.templateBasePath + "/server/ws/BasicRestEndpoint.java").text.replaceAll("@package@", wsServer)
+		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/") + "/BasicRestEndpoint.java").text = file(ext.templateBasePath + "/server/ws/BasicRestEndpoint.java").text.replaceAll("@package@", wsServer).replaceAll("@base@", base)
 	}
 
 	sourceSets.main*.resources.srcDirs*.each {

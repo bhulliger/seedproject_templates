@@ -1,0 +1,206 @@
+//** STARTFILE ${className}.java
+package ${package};
+
+import java.util.List;
+import java.util.Date;
+#foreach($entity in $list)
+import $qualifiedNameProvider.getFullyQualifiedName($entity);
+#end
+
+public interface ${className} {
+
+<T> Date lastModified(Class<T> type, Date modifiedSince);
+
+<T> Date lastModified(Class<T> type, Date modifiedSince, String id);
+
+#foreach($entity in $list)
+
+${entity.name} create${entity.name}(${entity.name} entity);
+
+boolean delete${entity.name}ById(String id);
+
+boolean delete${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name #if( $foreach.hasNext ),#end #end );
+
+List<${entity.name}> find${entity.name}(#set( $sep  = "" ) #foreach($attribute in $entity.attributes) #if($attribute.class.simpleName == "EntityValueAttributeDefImpl") $sep $qualifiedNameProvider.getFullyQualifiedName($attribute.type) $attribute.name #set($sep = ",") #end #end );
+
+${entity.name} load${entity.name}ById(String id);
+
+${entity.name} load${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name #if( $foreach.hasNext ),#end #end );
+
+List<${entity.name}> loadAll${entity.name}();
+
+${entity.name} update${entity.name}(${entity.name} entity);
+
+Date lastModified${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name, #end Date modifiedSince);
+
+#end
+
+}
+//** ENDFILE
+
+//** STARTFILE ${className}Impl.java
+package ${package};
+
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import com.mysema.query.jpa.impl.JPAQuery;
+
+#foreach($entity in $list)
+import $qualifiedNameProvider.getFullyQualifiedName($entity);
+import ${qualifiedNameProvider.getFullyQualifiedName($entity).skipLast(1)}.Q${entity.name};
+#end
+import ch.ims.licer.core.util.Security;
+
+@Stateless
+public class ${className}Impl implements ${className} {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public <T> Date lastModified(Class<T> type, Date modifiedSince) {
+        return lastModified(type, modifiedSince, null);
+    }
+    
+    @Override
+    public <T> Date lastModified(Class<T> type, Date modifiedSince, String id) {
+        StringBuilder sb = new StringBuilder("SELECT max(e.modificationDate) FROM ")
+            .append(type.getSimpleName()).append(" e ");
+        if(id != null) {
+            sb.append(" WHERE e.id = '").append(id).append("'");
+        }
+        Date lastModified = em.createQuery(sb.toString(), Date.class).getSingleResult();
+        if (lastModified == null) {
+            lastModified = new Date();
+        }
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(lastModified);
+        cal.set(Calendar.MILLISECOND, 0);
+        lastModified = cal.getTime();
+        if (modifiedSince != null && modifiedSince.compareTo(lastModified) >= 0) {
+            return null;
+        }
+        return lastModified;
+    }
+
+#foreach($entity in $list)
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"create")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public ${entity.name} create${entity.name}(final ${entity.name} entity) {
+    em.persist(entity);
+    return entity;
+}
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"deleteById")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public boolean delete${entity.name}ById(String id) {
+    ${entity.name} entity = em.find(${entity.name}.class, id);
+    if (entity == null)
+    {
+        return false;
+    }
+    em.remove(entity);
+    return true;    
+}
+
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"delete")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public boolean delete${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name #if( $foreach.hasNext ),#end #end ) {
+    Q${entity.name} qEntity = Q${entity.name}.${stringExtensions.toFirstLower($entity.name)};
+    ${entity.name} entity = new JPAQuery(em).from(qEntity)#foreach($naturalKey in $entity.naturalKey.fields).where(qEntity.${naturalKey.name}.eq(${naturalKey.name}))#end.singleResult(qEntity);
+    if (entity == null)
+    {
+        return false;
+    }
+    em.remove(entity);
+    return true;    
+}
+
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"find")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public List<${entity.name}> find${entity.name}(#set( $sep  = "" ) #foreach($attribute in $entity.attributes) #if($attribute.class.simpleName == "EntityValueAttributeDefImpl") $sep $qualifiedNameProvider.getFullyQualifiedName($attribute.type) $attribute.name #set($sep = ",") #end #end ) {
+    Q${entity.name} qEntity = Q${entity.name}.${stringExtensions.toFirstLower($entity.name)};
+	JPAQuery query = new JPAQuery(em).from(qEntity);
+#foreach($attribute in $entity.attributes)#if($attribute.class.simpleName == "EntityValueAttributeDefImpl")	
+	if(${attribute.name} != null){
+		query.where(qEntity.${attribute.name}.eq($attribute.name));
+	}
+#end #end
+	return query.list(qEntity);    
+}
+
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"loadById")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public ${entity.name} load${entity.name}ById(String id) {
+    return em.find(${entity.name}.class, id);
+}
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"load")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public ${entity.name} load${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name #if( $foreach.hasNext ),#end #end ) {
+    Q${entity.name} qEntity = Q${entity.name}.${stringExtensions.toFirstLower($entity.name)};
+    return new JPAQuery(em).from(qEntity)#foreach($naturalKey in $entity.naturalKey.fields).where(qEntity.${naturalKey.name}.eq(${naturalKey.name}))#end.singleResult(qEntity);
+}
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"loadAll")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public List<${entity.name}> loadAll${entity.name}() {
+    Q${entity.name} qEntity = Q${entity.name}.${stringExtensions.toFirstLower($entity.name)};
+    return new JPAQuery(em).from(qEntity).list(qEntity);
+}
+
+// PROTECTED REGION ID(${templateGenerator.protectedRegionId($entity,"update")}) ENABLED START
+@DenyAll
+// PROTECTED REGION END
+@Override
+public ${entity.name} update${entity.name}(final ${entity.name} e) {
+    ${entity.name} entity = em.merge(e);
+    return entity;
+}
+
+@Override
+public Date lastModified${entity.name}(#foreach($naturalKey in $entity.naturalKey.fields) $qualifiedNameProvider.getFullyQualifiedName($naturalKey.type) $naturalKey.name, #end Date modifiedSince) {
+    Q${entity.name} qEntity = Q${entity.name}.${stringExtensions.toFirstLower($entity.name)};
+    Date lastModified = new JPAQuery(em).from(qEntity)#foreach($naturalKey in $entity.naturalKey.fields).where(qEntity.${naturalKey.name}.eq(${naturalKey.name}))#end.singleResult(qEntity.modificationDate);
+    if (lastModified == null) {
+        lastModified = new Date();
+    }
+    Calendar cal = GregorianCalendar.getInstance();
+    cal.setTime(lastModified);
+    cal.set(Calendar.MILLISECOND, 0);
+    lastModified = cal.getTime();
+    if (modifiedSince != null && modifiedSince.compareTo(lastModified) >= 0) {
+        return null;
+    }
+    return lastModified;
+}
+#end
+}
+//** ENDFILE

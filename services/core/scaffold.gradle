@@ -1,0 +1,20 @@
+// ################################################################################
+// Scaffolding project structure
+// ################################################################################
+scaffold << {
+	// source packages
+	def base = project.group + "." + rootProject.name + "." + project.name
+	def model = base + ".model"
+
+	sourceSets.generated*.java.srcDirs*.each {
+		// .model #################################################################
+		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
+	}
+		
+	sourceSets.main*.resources.srcDirs*.each {
+		// .resources #############################################################
+		new File(it.toString() + "/domain.mdsd").text = file(ext.templateBasePath + "domain.mdsd").text.replaceAll("@package@", model)
+		new File(it.toString() + "/domain.properties").text = file(ext.templateBasePath + "domain.properties").text.replaceAll("@base@", base)
+		new File(it.toString() + "/crudServiceTemplate.txt").text = file(ext.templateBasePath + "crudServiceTemplate.txt").text
+	}
+}
