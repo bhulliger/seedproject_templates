@@ -22,7 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import @base@.shared.model.UserDto;
+import @base@.shared.model.CurrentUser;
 
 @Path("/basic")
 public class BasicRestEndpoint {
@@ -32,7 +32,7 @@ public class BasicRestEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser() {
 
-		UserDto dto = new UserDto();
+		CurrentUser dto = new CurrentUser();
 
 		// TODO Auto-generated method stub
 

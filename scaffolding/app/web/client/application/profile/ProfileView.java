@@ -16,16 +16,17 @@
 
 package @package@;
 
-public class UserDto {
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
-	private String username;
+public class ProfileView extends ViewWithUiHandlers<ProfileUiHandlers> implements ProfilePresenter.MyView {
+    public interface Binder extends UiBinder<Widget, ProfileView> {
+    }
 
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
+    @Inject
+    public ProfileView(Binder uiBinder) {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
 }

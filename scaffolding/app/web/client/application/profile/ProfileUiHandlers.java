@@ -14,24 +14,13 @@
  * the License.
  */
 
+
 package @package@;
 
-import @base@.client.application.home.HomeModule;
-import @base@.client.application.ui.UiModule;
-import @base@.client.application.profile.ProfileModule;
+import com.gwtplatform.mvp.client.UiHandlers;
 
-import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+public interface ProfileUiHandlers extends UiHandlers {
 
-public class ApplicationModule extends AbstractPresenterModule {
+	/** Add UiHandler stuff for the home page here */
 
-	@Override
-	protected void configure() {
-		install(new UiModule());
-		install(new HomeModule());
-		install(new ProfileModule());
-
-		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class, ApplicationPresenter.MyProxy.class);
-	}
-	
-
-}
+} 

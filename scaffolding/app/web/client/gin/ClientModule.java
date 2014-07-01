@@ -23,6 +23,10 @@ import @base@.client.application.ApplicationModule;
 import @base@.client.place.NameTokens;
 import @base@.client.ws.BasicRestClient;
 
+import @base@.client.gatekeeper.AdminGatekeeper;
+import @base@.client.gatekeeper.UserGatekeeper;
+import @base@.shared.model.CurrentUser;
+
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -48,9 +52,17 @@ public class ClientModule extends AbstractPresenterModule {
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
+
+        // Gatekeepers
+        bind(CurrentUser.class).in(Singleton.class);
+        bind(AdminGatekeeper.class).in(Singleton.class);
+        bind(UserGatekeeper.class).in(Singleton.class);
         
         // Presenters
         install(new ApplicationModule());
+
+        // Load and inject CSS Resources
+        bind(ResourceLoader.class).asEagerSingleton();
     }
 
     @Singleton

@@ -37,11 +37,7 @@ public class Footer extends Composite {
 	Label version, buildDate; // NOSONAR
 
 	@Inject
-	public Footer(Binder binder) {
-		// FIXME use gin injection for resources.
-		AppMessages messages = GWT.create(AppMessages.class);
-		AppConfig config = GWT.create(AppConfig.class);
-
+	public Footer(Binder binder, AppMessages messages, AppConfig config) {
 		version = new Label();
 		buildDate = new Label();
 

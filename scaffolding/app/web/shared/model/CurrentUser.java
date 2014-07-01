@@ -16,22 +16,31 @@
 
 package @package@;
 
-import @base@.client.application.home.HomeModule;
-import @base@.client.application.ui.UiModule;
-import @base@.client.application.profile.ProfileModule;
+import java.io.Serializable;
+import java.util.List;
 
-import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+public class CurrentUser implements Serializable {
 
-public class ApplicationModule extends AbstractPresenterModule {
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void configure() {
-		install(new UiModule());
-		install(new HomeModule());
-		install(new ProfileModule());
+	private String username;
 
-		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class, ApplicationPresenter.MyProxy.class);
+	private List<String> roles;
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<String> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 	
-
 }

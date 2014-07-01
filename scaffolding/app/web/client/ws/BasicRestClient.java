@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import org.fusesource.restygwt.client.Options;
 import org.fusesource.restygwt.client.RestService;
 
-import @base@.shared.model.UserDto;
+import @base@.shared.model.CurrentUser;
 
 @Options(dispatcher = AuthenticationDispatcher.class)
 @Path("/rest/basic")
@@ -34,6 +34,6 @@ public interface BasicRestClient extends RestService {
 	@Path("/v1/user")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Options(expect = HttpConstants.STATUS_OK)
-	void getUser(AbstractRestCallback<UserDto> user);
+	void getUser(AbstractRestCallback<CurrentUser> user);
 	
 }

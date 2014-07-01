@@ -31,7 +31,7 @@ import @base@.client.place.NameTokens;
 import @base@.client.resources.AppResources;
 import @base@.client.ws.AbstractRestCallback;
 import @base@.client.ws.BasicRestClient;
-import @base@.shared.model.UserDto;
+import @base@.shared.model.CurrentUser;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -55,6 +55,7 @@ public class Header extends Composite {
 	
 	@UiField ListDropDown authenticatedMenu; // NOSONAR
 	@UiField AnchorButton authenticatedUser; // NOSONAR
+	@UiField ListItem profile; // NOSONAR
 	@UiField ListItem signout; // NOSONAR
 	
 	@UiField Div anonymous; // NOSONAR
@@ -64,35 +65,33 @@ public class Header extends Composite {
 
 	private BasicRestClient basicRestClient;
 
+	private CurrentUser currentUser;
+
 	@Inject
-	public Header(Binder binder, PlaceManager placeManager, BasicRestClient basicRestClient) {
+	public Header(Binder binder, PlaceManager placeManager, BasicRestClient basicRestClient, AppResources resources, CurrentUser currentUser) {
 
 		this.placeManager = placeManager;
 		this.basicRestClient = basicRestClient;
 
-		AppResources.CSS.main().ensureInjected();
 		initWidget(binder.createAndBindUi(this));
 
-		anonymous.addStyleName(AppResources.CSS.main().headerForm());
+		anonymous.addStyleName(resources.styles().headerForm());
 
-		anonymous.setVisible(true);
-		authenticated.setVisible(false);
+		anonymous.setVisible(currentUser.getUsername() == null);
+		authenticated.setVisible(currentUser.getUsername() != null);
 
 	}
 
 	@UiHandler("signin")
 	void onSignin(ClickEvent event) {
+
 		anonymous.setVisible(false);
 
-		basicRestClient.getUser(new AbstractRestCallback<UserDto>() {
 
-			@Override
-			public void onSuccess(Method method, UserDto response) {
-				authenticatedUser.setText(response.getUsername());
-				authenticated.setVisible(true);
-			}
-
-		});
+		// TODO do the authentication
+		authenticatedUser.setText(currentUser.getUsername());
+		authenticated.setVisible(true);
+		
 	}
 
 	@UiHandler("signout")
@@ -106,8 +105,14 @@ public class Header extends Composite {
 		anonymous.setVisible(true);
 	}
 
+	@UiHandler("profile")
+	void onProfile(ClickEvent event) {
+		PlaceRequest request = new PlaceRequest.Builder().nameToken(NameTokens.profilePage).build();
+		placeManager.revealPlace(request);
+	}
+
 	@UiHandler("home")
-	void onHome(ClickEvent home) {
+	void onHome(ClickEvent event) {
 		PlaceRequest request = new PlaceRequest.Builder().nameToken(
 				NameTokens.homePage).build();
 

@@ -1,3 +1,17 @@
+// ############################################################################
+// Download Plugin
+// ############################################################################
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'de.undercouch:gradle-download-task:1.0'
+    }
+}
+
+
+
 // ################################################################################
 // Scaffolding project structure
 // ################################################################################
@@ -12,9 +26,12 @@ scaffold << {
 	def app = client + ".application"
 	def ui = app + ".ui"
 	def home = app + ".home"
+	def profile = app + ".profile"
 	def i18n = client + ".i18n"
 	def resources = client + ".resources"
+	def images = resources + ".images"
 	def ws = client + ".ws"
+	def gatekeeper = client + ".gatekeeper"
 	def model = shared + ".model"
 	def wsServer = server + ".ws"
 
@@ -43,6 +60,8 @@ scaffold << {
 		// .gin ###############################################################
 		new File(it.toString() + "/" + gin.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/ClientModule.java").text = file(ext.templateBasePath + "/client/gin/ClientModule.java").text.replaceAll("@package@", gin).replaceAll("@base@", base)
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/GinjectorExtension.java").text = file(ext.templateBasePath + "/client/gin/GinjectorExtension.java").text.replaceAll("@package@", gin).replaceAll("@base@", base)
+		new File(it.toString() + "/" + gin.replaceAll("\\.", "/") + "/ResourceLoader.java").text = file(ext.templateBasePath + "/client/gin/ResourceLoader.java").text.replaceAll("@package@", gin).replaceAll("@base@", base)
 
 		// .place #############################################################
 		new File(it.toString() + "/" + place.replaceAll("\\.", "/")).mkdirs()
@@ -71,6 +90,14 @@ scaffold << {
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.ui.xml").text = file(ext.templateBasePath + "/client/application/home/HomeView.ui.xml").text.replaceAll("@base@", base)
 
+		// .application.profile ##################################################
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileModule.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileModule.java").text.replaceAll("@package@", profile)
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileUiHandlers.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileUiHandlers.java").text.replaceAll("@package@", profile)
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfilePresenter.java").text = file(ext.templateBasePath + "/client/application/profile/ProfilePresenter.java").text.replaceAll("@package@", profile).replaceAll("@base@", base)
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileView.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileView.java").text.replaceAll("@package@", profile).replaceAll("@base@", base)
+		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileView.ui.xml").text = file(ext.templateBasePath + "/client/application/profile/ProfileView.ui.xml").text.replaceAll("@base@", base)
+
 		// .i18n ##############################################################
 		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + i18n.replaceAll("\\.", "/") + "/AppConstants.java").text = file(ext.templateBasePath + "/client/i18n/AppConstants.java").text.replaceAll("@package@", i18n)
@@ -80,7 +107,6 @@ scaffold << {
 		// .resources #########################################################
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/AppResources.java").text = file(ext.templateBasePath + "/client/resources/AppResources.java").text.replaceAll("@package@", resources)
-		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/MainCss.java").text = file(ext.templateBasePath + "/client/resources/MainCss.java").text.replaceAll("@package@", resources)
 
 		// client.ws ##########################################################
 		new File(it.toString() + "/" + ws.replaceAll("\\.", "/")).mkdirs()
@@ -91,7 +117,12 @@ scaffold << {
 
 		// .model #############################################################
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + model.replaceAll("\\.", "/") + "/UserDto.java").text = file(ext.templateBasePath + "/shared/model/UserDto.java").text.replaceAll("@package@", model)
+		new File(it.toString() + "/" + model.replaceAll("\\.", "/") + "/CurrentUser.java").text = file(ext.templateBasePath + "/shared/model/CurrentUser.java").text.replaceAll("@package@", model)
+
+		// .gatekeeper ########################################################
+		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/") + "/UserGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/UserGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared)
+		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/") + "/AdminGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/AdminGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared)
 
 		// .server.ws #########################################################
 		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/")).mkdirs()
@@ -101,6 +132,10 @@ scaffold << {
 	sourceSets.main*.resources.srcDirs*.each {
 		// .resources #########################################################
 		new File(it.toString() + "/" + resources.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/main.css").text = file(ext.templateBasePath + "/client/resources/main.css").text
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/sprites.css").text = file(ext.templateBasePath + "/client/resources/sprites.css").text
+		new File(it.toString() + "/" + resources.replaceAll("\\.", "/") + "/styles.css").text = file(ext.templateBasePath + "/client/resources/styles.css").text
+
+		// .resources.images ##################################################
+		new File(it.toString() + "/" + images.replaceAll("\\.", "/")).mkdirs()
 	}
 }

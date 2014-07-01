@@ -22,4 +22,10 @@ public class NameTokens {
     public static String getHomePage() {
         return homePage;
     }
+
+    public static final String profilePage = "!profilePage";
+
+    public static String getProfilePage() {
+    	return profilePage;
+    }
 }

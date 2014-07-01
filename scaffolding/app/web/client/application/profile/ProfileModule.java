@@ -13,14 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
-import com.google.gwt.resources.client.CssResource;
+import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
-public interface MainCss extends CssResource {
-
-	/** Put your main css stuff here */
-	@ClassName("app-headerForm")
-	String headerForm();
-
+public class ProfileModule extends AbstractPresenterModule {
+    @Override
+    protected void configure() {
+        bindPresenter(ProfilePresenter.class, ProfilePresenter.MyView.class, ProfileView.class,
+                ProfilePresenter.MyProxy.class);
+    }
 }
