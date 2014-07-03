@@ -19,7 +19,15 @@ package @package@;
 import org.fusesource.restygwt.client.Resource;
 import org.fusesource.restygwt.client.RestServiceProxy;
 
-import @base@.client.application.ApplicationModule;
+import @base@.client.application.ApplicationPresenter;
+import @base@.client.application.ApplicationView;
+import @base@.client.application.signin.SigninPresenter;
+import @base@.client.application.signin.SigninView;
+import @base@.client.application.home.HomePresenter;
+import @base@.client.application.home.HomeView;
+import @base@.client.application.profile.ProfilePresenter;
+import @base@.client.application.profile.ProfileView;
+import @base@.client.application.ui.UiModule;
 import @base@.client.place.NameTokens;
 import @base@.client.ws.BasicRestClient;
 
@@ -58,8 +66,14 @@ public class ClientModule extends AbstractPresenterModule {
         bind(AdminGatekeeper.class).in(Singleton.class);
         bind(UserGatekeeper.class).in(Singleton.class);
         
+        // Header & Footer
+        install(new UiModule());
+
         // Presenters
-        install(new ApplicationModule());
+        bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class, ApplicationPresenter.MyProxy.class);
+        bindPresenter(SigninPresenter.class, SigninPresenter.MyView.class, SigninView.class, SigninPresenter.MyProxy.class);
+        bindPresenter(HomePresenter.class, HomePresenter.MyView.class, HomeView.class, HomePresenter.MyProxy.class);
+        bindPresenter(ProfilePresenter.class, ProfilePresenter.MyView.class, ProfileView.class, ProfilePresenter.MyProxy.class);
 
         // Load and inject CSS Resources
         bind(ResourceLoader.class).asEagerSingleton();

@@ -28,4 +28,10 @@ public class NameTokens {
     public static String getProfilePage() {
     	return profilePage;
     }
+
+    public static final String signinPage = "!signinPage";
+
+    public static String getSigninPage() {
+    	return signinPage;
+    }
 }

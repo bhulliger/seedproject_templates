@@ -18,6 +18,7 @@ package @package@;
 
 import @base@.client.application.ApplicationPresenter;
 import @base@.client.place.NameTokens;
+import @base@.client.gatekeeper.UserGatekeeper;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,7 @@ import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 
 public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter.MyProxy> implements HomeUiHandlers {
@@ -35,6 +37,7 @@ public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter
 
     @ProxyCodeSplit
     @NameToken(NameTokens.homePage)
+    @UseGatekeeper(UserGatekeeper.class)
     public interface MyProxy extends ProxyPlace<HomePresenter> {
     }
 

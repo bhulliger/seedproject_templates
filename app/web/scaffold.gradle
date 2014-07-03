@@ -25,6 +25,7 @@ scaffold << {
 	def place = client + ".place"
 	def app = client + ".application"
 	def ui = app + ".ui"
+	def signin = app + ".signin"
 	def home = app + ".home"
 	def profile = app + ".profile"
 	def i18n = client + ".i18n"
@@ -32,12 +33,13 @@ scaffold << {
 	def images = resources + ".images"
 	def ws = client + ".ws"
 	def gatekeeper = client + ".gatekeeper"
+	def validation = shared + ".validation"
 	def model = shared + ".model"
+	def action = shared + ".action"
 	def wsServer = server + ".ws"
+	def handler = server + ".handler"
 
 	new File(webAppDir.toString() + "/WEB-INF/web.xml").text = file(ext.templateBasePath + 'web.xml').text.replaceAll("@module@", rootProject.name).replaceAll("@package@", base)
-	new File(webAppDir.toString() + "/WEB-INF/logging.properties").text = file(ext.templateBasePath + 'logging.properties').text.replaceAll("@module@", rootProject.name)
-	new File(webAppDir.toString() + "/WEB-INF/appengine-web.xml").text = file(ext.templateBasePath + 'appengine-web.xml').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/index.html").text = file(ext.templateBasePath + 'index.html').text.replaceAll("@module@", rootProject.name)
 	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
 
@@ -69,7 +71,6 @@ scaffold << {
 
 		// .application #######################################################
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationModule.java").text = file(ext.templateBasePath + "/client/application/ApplicationModule.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationPresenter.java").text = file(ext.templateBasePath + "/client/application/ApplicationPresenter.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.java").text = file(ext.templateBasePath + "/client/application/ApplicationView.java").text.replaceAll("@package@", app).replaceAll("@base@", base)
 		new File(it.toString() + "/" + app.replaceAll("\\.", "/") + "/ApplicationView.ui.xml").text = file(ext.templateBasePath + "/client/application/ApplicationView.ui.xml").text.replaceAll("@base@", base).replaceAll("@base@", base)
@@ -82,9 +83,15 @@ scaffold << {
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Footer.java").text = file(ext.templateBasePath + "/client/application/ui/Footer.java").text.replaceAll("@package@", ui).replaceAll("@base@", base)
 		new File(it.toString() + "/" + ui.replaceAll("\\.", "/") + "/Footer.ui.xml").text = file(ext.templateBasePath + "/client/application/ui/Footer.ui.xml").text.replaceAll("@base@", base)
 
+		// .application.signin ##################################################
+		new File(it.toString() + "/" + signin.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + signin.replaceAll("\\.", "/") + "/SigninUiHandlers.java").text = file(ext.templateBasePath + "/client/application/signin/SigninUiHandlers.java").text.replaceAll("@package@", signin)
+		new File(it.toString() + "/" + signin.replaceAll("\\.", "/") + "/SigninPresenter.java").text = file(ext.templateBasePath + "/client/application/signin/SigninPresenter.java").text.replaceAll("@package@", signin).replaceAll("@base@", base)
+		new File(it.toString() + "/" + signin.replaceAll("\\.", "/") + "/SigninView.java").text = file(ext.templateBasePath + "/client/application/signin/SigninView.java").text.replaceAll("@package@", signin).replaceAll("@base@", base)
+		new File(it.toString() + "/" + signin.replaceAll("\\.", "/") + "/SigninView.ui.xml").text = file(ext.templateBasePath + "/client/application/signin/SigninView.ui.xml").text.replaceAll("@base@", base)
+
 		// .application.home ##################################################
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeModule.java").text = file(ext.templateBasePath + "/client/application/home/HomeModule.java").text.replaceAll("@package@", home)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeUiHandlers.java").text = file(ext.templateBasePath + "/client/application/home/HomeUiHandlers.java").text.replaceAll("@package@", home)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomePresenter.java").text = file(ext.templateBasePath + "/client/application/home/HomePresenter.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
 		new File(it.toString() + "/" + home.replaceAll("\\.", "/") + "/HomeView.java").text = file(ext.templateBasePath + "/client/application/home/HomeView.java").text.replaceAll("@package@", home).replaceAll("@base@", base)
@@ -92,7 +99,6 @@ scaffold << {
 
 		// .application.profile ##################################################
 		new File(it.toString() + "/" + profile.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileModule.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileModule.java").text.replaceAll("@package@", profile)
 		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileUiHandlers.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileUiHandlers.java").text.replaceAll("@package@", profile)
 		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfilePresenter.java").text = file(ext.templateBasePath + "/client/application/profile/ProfilePresenter.java").text.replaceAll("@package@", profile).replaceAll("@base@", base)
 		new File(it.toString() + "/" + profile.replaceAll("\\.", "/") + "/ProfileView.java").text = file(ext.templateBasePath + "/client/application/profile/ProfileView.java").text.replaceAll("@package@", profile).replaceAll("@base@", base)
@@ -119,6 +125,14 @@ scaffold << {
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/") + "/CurrentUser.java").text = file(ext.templateBasePath + "/shared/model/CurrentUser.java").text.replaceAll("@package@", model)
 
+		// .validation ########################################################
+		new File(it.toString() + "/" + validation.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + validation.replaceAll("\\.", "/") + "/FieldVerifier.java").text = file(ext.templateBasePath + "/shared/validation/FieldVerifier.java").text.replaceAll("@package@", validation)
+
+		// .action ########################################################
+		new File(it.toString() + "/" + action.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/Login.java").text = file(ext.templateBasePath + "/shared/action/Login.java").text.replaceAll("@package@", action)
+
 		// .gatekeeper ########################################################
 		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/") + "/UserGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/UserGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared)
@@ -127,6 +141,10 @@ scaffold << {
 		// .server.ws #########################################################
 		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + wsServer.replaceAll("\\.", "/") + "/BasicRestEndpoint.java").text = file(ext.templateBasePath + "/server/ws/BasicRestEndpoint.java").text.replaceAll("@package@", wsServer).replaceAll("@base@", base)
+
+		// .server.handler ####################################################
+		new File(it.toString() + "/" + handler.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + handler.replaceAll("\\.", "/") + "/LoginHandler.java").text = file(ext.templateBasePath + "/server/handler/LoginHandler.java").text.replaceAll("@package@", handler).replaceAll("@base@", base)
 	}
 
 	sourceSets.main*.resources.srcDirs*.each {

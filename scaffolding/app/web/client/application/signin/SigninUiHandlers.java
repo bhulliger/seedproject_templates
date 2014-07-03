@@ -14,14 +14,13 @@
  * the License.
  */
 
+
 package @package@;
 
-import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.gwtplatform.mvp.client.UiHandlers;
 
-public class ProfileModule extends AbstractPresenterModule {
-    @Override
-    protected void configure() {
-        bindPresenter(ProfilePresenter.class, ProfilePresenter.MyView.class, ProfileView.class,
-                ProfilePresenter.MyProxy.class);
-    }
-}
+public interface SigninUiHandlers extends UiHandlers {
+
+	/** Add UiHandler stuff for the home page here */
+
+} 
