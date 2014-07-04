@@ -3,8 +3,8 @@
 // ############################################################################
 domainObjectTemplate {	
 	id: java.lang.String length=36
-	createDate: java.util.Date update=false
-	createUser: java.lang.String length=50 update=false
+	creationDate: java.util.Date update=false
+	creationUser: java.lang.String length=50 update=false
 	modificationDate: java.util.Date
 	modificationUser: java.lang.String length=50
 }  
@@ -41,7 +41,9 @@ package @package@ {
 
 	package domain {
 
-		entity User {
+		datatype Auditable
+
+		entity User implements Auditable {
 
 			username: String
 			password: String

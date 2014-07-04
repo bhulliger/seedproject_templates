@@ -22,8 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import @base@.shared.model.CurrentUser;
-
 @Path("/basic")
 public class BasicRestEndpoint {
 
@@ -31,12 +29,9 @@ public class BasicRestEndpoint {
 	@Path("/v1/user")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser() {
-
-		CurrentUser dto = new CurrentUser();
-
 		// TODO Auto-generated method stub
 
-		return Response.ok(dto).build();
+		return Response.ok().build();
 	}
 
 }

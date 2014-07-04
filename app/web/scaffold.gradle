@@ -17,7 +17,10 @@ buildscript {
 // ################################################################################
 scaffold << {
 	// source packages
+	def core = project.group + "." + rootProject.name + ".core" // TODO ugly dependency
 	def base = project.group + "." + rootProject.name + "." + project.name
+
+
 	def client = base + ".client"
 	def shared = base + ".shared"
 	def server = base + ".server"
@@ -34,6 +37,7 @@ scaffold << {
 	def images = resources + ".images"
 	def ws = client + ".ws"
 	def gatekeeper = client + ".gatekeeper"
+	def util = client + ".util"
 	def validation = shared + ".validation"
 	def model = shared + ".model"
 	def action = shared + ".action"
@@ -124,8 +128,11 @@ scaffold << {
 
 		// client.event #######################################################
 		new File(it.toString() + "/" + event.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticatedEvent.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedEvent.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
-		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticatedEventHandler.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedEventHandler.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
+		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticated.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedt.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
+
+		// client.util ########################################################
+		new File(it.toString() + "/" + util.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + util.replaceAll("\\.", "/") + "/Security.java").text = file(ext.templateBasePath + "/client/util/Security.java").text.replaceAll("@package@", util).replaceAll("@base@", base)
 
 		// .model #############################################################
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
@@ -135,11 +142,9 @@ scaffold << {
 		new File(it.toString() + "/" + validation.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + validation.replaceAll("\\.", "/") + "/FieldVerifier.java").text = file(ext.templateBasePath + "/shared/validation/FieldVerifier.java").text.replaceAll("@package@", validation)
 
-		// .action ########################################################
+		// .action ############################################################
 		new File(it.toString() + "/" + action.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/Login.java").text = file(ext.templateBasePath + "/shared/action/Login.java").text.replaceAll("@package@", action)
-		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/LoginAction.java").text = file(ext.templateBasePath + "/shared/action/LoginAction.java").text.replaceAll("@package@", action)
-		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/LoginResult.java").text = file(ext.templateBasePath + "/shared/action/LoginResult.java").text.replaceAll("@package@", action)
 
 		// .gatekeeper ########################################################
 		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/")).mkdirs()
@@ -152,7 +157,7 @@ scaffold << {
 
 		// .server.handler ####################################################
 		new File(it.toString() + "/" + handler.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + handler.replaceAll("\\.", "/") + "/LoginHandler.java").text = file(ext.templateBasePath + "/server/handler/LoginHandler.java").text.replaceAll("@package@", handler).replaceAll("@base@", base)
+		new File(it.toString() + "/" + handler.replaceAll("\\.", "/") + "/LoginHandler.java").text = file(ext.templateBasePath + "/server/handler/LoginHandler.java").text.replaceAll("@package@", handler).replaceAll("@base@", base).replaceAll("@core@", core)
 	}
 
 	sourceSets.main*.resources.srcDirs*.each {

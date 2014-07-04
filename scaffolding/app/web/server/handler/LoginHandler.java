@@ -14,14 +14,21 @@
 
 package @package@;
 
+import @base@.shared.action.LoginAction;
+import @base@.shared.action.LoginResult;
+import @base@.client.util.Security;
+
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.allen_sauer.gwt.log.client.Log;
+import @core@.model.dao.UserDao;
+import @core@.model.domain.User;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.gwtplatform.dispatch.server.ExecutionContext;
+import com.gwtplatform.dispatch.rpc.server.ExecutionContext;
 import com.gwtplatform.dispatch.rpc.server.actionhandler.ActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
@@ -49,13 +56,12 @@ public class LoginHandler implements ActionHandler<LoginAction, LoginResult> {
     // Log.debug("LoginHandler - login: " + action.getLogin() + ", password: " + action.getPassword());
 
     try {
-      User user = userDao.retrieveUser(action.getLogin());
+      User user = userDao.getByUsername(action.getUsername());
 
       if (user != null && isValidLogin(action, user)) {
-        Log.debug(action.getLogin() + " has logged in");
 
         HttpSession session = requestProvider.get().getSession();
-        session.setAttribute("login.authenticated", action.getLogin());
+        session.setAttribute("login.authenticated", action.getUsername());
 
         result = new LoginResult(session.getId());
       }

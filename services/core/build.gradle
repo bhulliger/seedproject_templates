@@ -23,10 +23,12 @@ buildscript {
 // ############################################################################
 dependencies {
 	// Hibernate & JPA 2
-	compile 	group: 'org.hibernate',				name: 'hibernate-core', 		version: '4.3.5.Final'
+	//compile 	group: 'org.hibernate',				name: 'hibernate-core', 		version: '4.3.5.Final'
+	compile		group: 'javax',						name: 'javaee-api', 			version: '7.0'
 
 	// Query DSL Dependency
 	compile 	group: 'com.mysema.querydsl', 		name: 'querydsl-apt', 			version: '3.4.1'
+	compile 	group: 'com.mysema.querydsl', 		name: 'querydsl-jpa', 			version: '3.4.1'
 	compile 	group: 'com.mysema.querydsl', 		name: 'querydsl-codegen', 		version: '3.4.1'
 }
 
