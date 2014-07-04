@@ -27,6 +27,13 @@ public class CurrentUser implements Serializable {
 
 	private List<String> roles;
 
+	private boolean authenticated = true;
+
+	public CurrentUser(String username) {
+		this.username = username;
+	}
+
+
 	public String getUsername() {
 		return this.username;
 	}
@@ -41,6 +48,18 @@ public class CurrentUser implements Serializable {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+
+	public boolean isAdmin() {
+		return roles != null && roles.contains("ROLE_ADMIN");
 	}
 	
 }

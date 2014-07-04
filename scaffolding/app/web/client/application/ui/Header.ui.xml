@@ -20,25 +20,15 @@
 				<b:ListItem active="true" ui:field="home" text="{constants.home}" />
 			</b:NavbarNav>
 
-			<b:Div ui:field="anonymous">
-				<b:NavbarForm pull="RIGHT">
-					<b:TextBox placeholder="{constants.username}" ui:field="username" />
-					<b:Input type="PASSWORD" placeholder="{constants.password}" ui:field="password" />
-					<b:Button text="{constants.signin}" type="PRIMARY" ui:field="signin" />
-				</b:NavbarForm>
-			</b:Div>
-
-			<b:Div ui:field="authenticated">
-				<b:NavbarNav pull="RIGHT">
-					<b:ListDropDown ui:field="authenticatedMenu">
-						<b:AnchorButton dataToggle="DROPDOWN" ui:field="authenticatedUser" />
-						<b:DropDownMenu>
-							<b:ListItem text="{constants.profile}" href="{nameTokens.getProfilePage}" icon="USER" ui:field="profile" />
-							<b:ListItem text="{constants.signout}" icon="SIGN_OUT" ui:field="signout" />
-						</b:DropDownMenu>
-					</b:ListDropDown>
-				</b:NavbarNav>
-			</b:Div>
+			<b:NavbarNav pull="RIGHT">
+				<b:ListDropDown ui:field="currentUserMenu">
+					<b:AnchorButton dataToggle="DROPDOWN" ui:field="currentUserName" />
+					<b:DropDownMenu>
+						<b:ListItem text="{constants.profile}" href="{nameTokens.getProfilePage}" icon="USER" ui:field="profile" />
+						<b:ListItem text="{constants.signout}" icon="SIGN_OUT" ui:field="signout" />
+					</b:DropDownMenu>
+				</b:ListDropDown>
+			</b:NavbarNav>
 		</b:NavbarCollapse>
 	</b:Navbar>
 

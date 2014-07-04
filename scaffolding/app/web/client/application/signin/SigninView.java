@@ -17,8 +17,17 @@
 package @package@;
 
 import @base@.shared.validation.FieldVerifier;
+import @base@.client.i18n.AppMessages;
 
+import org.gwtbootstrap3.client.ui.Alert;
+import org.gwtbootstrap3.client.ui.Input;
+import org.gwtbootstrap3.client.ui.Button;
+
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -27,22 +36,34 @@ public class SigninView extends ViewWithUiHandlers<SigninUiHandlers> implements 
     public interface Binder extends UiBinder<Widget, SigninView> {
     }
 
+    @UiField Alert alert; // NOSONAR
+    @UiField Label alertMessage; // NOSONAR
+
+    @UiField Button signin; // NOSONAR
+    @UiField Input username; // NOSONAR
+    @UiField Input password; // NOSONAR
+
+    private AppMessages messages; 
+
     @Inject
-    public SigninView(Binder uiBinder) {
+    public SigninView(Binder uiBinder, AppMessages messages) {
         initWidget(uiBinder.createAndBindUi(this));
+        this.messages = messages;
     }
 
     @UiHandler("signin")
     void onSignin(ClickEvent event) {
 
     	if (FieldVerifier.isValidUsername(getUsername()) && FieldVerifier.isValidPassword(getPassword())) {
-
+            alert.setVisible(false);
 	    	if (getUiHandlers() != null) {
 	    		getUiHandlers().onSignin();
 	    	}
     	} else {
-    		event.cancel();
-    		SC.say("sign in", "you must enter a valid username and password."); // FIXME
+            showAlert(messages.invalidCredentialsTitle(), messages.invalidCredentialsMessage());
+            
+            alert.setVisible(true);
+            resetAndFocus();
     	}
 
     }
@@ -55,5 +76,23 @@ public class SigninView extends ViewWithUiHandlers<SigninUiHandlers> implements 
     @Override
     public String getPassword() {
     	return this.password.getText();
+    }
+
+    @Override
+    public void showAlert(String title, String message) {
+        alert.setTitle(title);
+        alertMessage.setText(message);
+        alert.setVisible(true);
+    }
+
+    @Override
+    public void hideAlert() {
+        alert.setVisible(false);
+    }
+
+    @Override
+    public void resetAndFocus() {
+        this.username.setFocus(true);
+        this.username.selectAll();
     }
 }

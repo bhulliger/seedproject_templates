@@ -49,49 +49,21 @@ public class Header extends Composite {
 
 	@UiField ListItem home; // NOSONAR
 	
-	@UiField TextBox username; // NOSONAR
-	@UiField Input password; // NOSONAR
-	@UiField Button signin; // NOSONAR
-	
-	@UiField ListDropDown authenticatedMenu; // NOSONAR
-	@UiField AnchorButton authenticatedUser; // NOSONAR
+	@UiField ListDropDown currentUserMenu; // NOSONAR
+	@UiField AnchorButton currentUserName; // NOSONAR
 	@UiField ListItem profile; // NOSONAR
 	@UiField ListItem signout; // NOSONAR
 	
-	@UiField Div anonymous; // NOSONAR
-	@UiField Div authenticated; // NOSONAR
-
 	private PlaceManager placeManager;
-
-	private BasicRestClient basicRestClient;
 
 	private CurrentUser currentUser;
 
 	@Inject
-	public Header(Binder binder, PlaceManager placeManager, BasicRestClient basicRestClient, AppResources resources, CurrentUser currentUser) {
+	public Header(Binder binder, PlaceManager placeManager, AppResources resources, CurrentUser currentUser) {
 
 		this.placeManager = placeManager;
-		this.basicRestClient = basicRestClient;
 
 		initWidget(binder.createAndBindUi(this));
-
-		anonymous.addStyleName(resources.styles().headerForm());
-
-		anonymous.setVisible(currentUser.getUsername() == null);
-		authenticated.setVisible(currentUser.getUsername() != null);
-
-	}
-
-	@UiHandler("signin")
-	void onSignin(ClickEvent event) {
-
-		anonymous.setVisible(false);
-
-
-		// TODO do the authentication
-		authenticatedUser.setText(currentUser.getUsername());
-		authenticated.setVisible(true);
-		
 	}
 
 	@UiHandler("signout")
@@ -99,10 +71,6 @@ public class Header extends Composite {
 
 		// TODO Auto-generated method stub
 
-		authenticatedUser.setText(null);
-		authenticated.setVisible(false);
-
-		anonymous.setVisible(true);
 	}
 
 	@UiHandler("profile")

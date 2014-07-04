@@ -39,4 +39,15 @@ package @package@ {
 	import java.lang.*
 	import java.util.*
 
+	package domain {
+
+		entity User {
+
+			username: String
+			password: String
+			salt: String
+
+		}
+	}
+
 }

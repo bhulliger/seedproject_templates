@@ -2,7 +2,7 @@ package @package@;
 
 public class FieldVerifier {
 
-  public static boolean isValidUserName(String name) {
+  public static boolean isValidUsername(String name) {
 
     if (name == null) {
       return false;

@@ -1,9 +1,9 @@
 package @package@;
 
-import com.gwtplatform.annotation.GenDispatch;
-import com.gwtplatform.annotation.In;
-import com.gwtplatform.annotation.Out;
-import com.gwtplatform.dispatch.shared.UnsecuredActionImpl;
+import com.gwtplatform.dispatch.annotation.GenDispatch;
+import com.gwtplatform.dispatch.annotation.In;
+import com.gwtplatform.dispatch.annotation.Out;
+import com.gwtplatform.dispatch.rpc.shared.UnsecuredActionImpl;
 
 @GenDispatch(isSecure = false, serviceName = UnsecuredActionImpl.DEFAULT_SERVICE_NAME)
 public class Login {

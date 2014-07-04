@@ -22,11 +22,17 @@ import org.fusesource.restygwt.client.Method;
 
 import @base@.client.place.NameTokens;
 import @base@.client.ws.AbstractRestCallback;
-import @base@.client.ws.BasicRestClient;
+import @base@.shared.action.LoginResult;
+import @base@.shared.action.LoginAction;
 import @base@.shared.model.CurrentUser;
 import @base@.shared.validation.FieldVerifier;
+import @base@.client.event.LoginAuthenticatedEvent;
+import @base@.client.i18n.AppMessages;
 
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.dispatch.rpc.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -34,6 +40,8 @@ import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.NoGatekeeper;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 
 public class SigninPresenter extends Presenter<SigninPresenter.MyView, SigninPresenter.MyProxy> implements SigninUiHandlers {
@@ -41,11 +49,14 @@ public class SigninPresenter extends Presenter<SigninPresenter.MyView, SigninPre
     private final EventBus eventBus;
     private final DispatchAsync dispatcher;
     private final PlaceManager placeManager;
+    private final AppMessages messages;
 
     public interface MyView extends View, HasUiHandlers<SigninUiHandlers> {
         String getUsername();
         String getPassword();
         void resetAndFocus();
+        void showAlert(String title, String message);
+        void hideAlert();
     }
 
     @ProxyCodeSplit
@@ -55,12 +66,13 @@ public class SigninPresenter extends Presenter<SigninPresenter.MyView, SigninPre
     }
 
     @Inject
-    public SigninPresenter(EventBus eventBus, MyView view, MyProxy proxy, DispatchAsync dispatcher,  PlaceManager placeManager, EventBus eventBus) {
+    public SigninPresenter(EventBus eventBus, MyView view, MyProxy proxy, DispatchAsync dispatcher,  PlaceManager placeManager, AppMessages messages) {
         super(eventBus, view, proxy);
 
-        tihs.dispatcher = dispatcher;
+        this.dispatcher = dispatcher;
         this.placeManager = placeManager;
         this.eventBus = eventBus;
+        this.messages = messages;
 
         view.setUiHandlers(this);
     }
@@ -79,8 +91,16 @@ public class SigninPresenter extends Presenter<SigninPresenter.MyView, SigninPre
 
                 LoginAuthenticatedEvent.fire(eventBus, currentUser);
 
-                PlaceRequest placeRequest = new PlaceRequest(NameTokens.homePage);
+                PlaceRequest placeRequest = new PlaceRequest.Builder().nameToken(NameTokens.homePage).build();
+
                 getPlaceManager().revealPlace(placeRequest);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                getView().showAlert(getMessages().authenticationFailedTitle(), getMessages().authenticationFailedMessage());
+                getView().resetAndFocus();
+                
             }
 
         });
@@ -93,6 +113,10 @@ public class SigninPresenter extends Presenter<SigninPresenter.MyView, SigninPre
     
     private PlaceManager getPlaceManager() {
         return placeManager;
+    }
+
+    private AppMessages getMessages() {
+        return messages;
     }
 
 }

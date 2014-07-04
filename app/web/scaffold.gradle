@@ -21,6 +21,7 @@ scaffold << {
 	def client = base + ".client"
 	def shared = base + ".shared"
 	def server = base + ".server"
+	def event = client + ".event"
 	def gin = client + ".gin"
 	def place = client + ".place"
 	def app = client + ".application"
@@ -121,6 +122,11 @@ scaffold << {
 		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/HttpConstants.java").text = file(ext.templateBasePath + "/client/ws/HttpConstants.java").text.replaceAll("@package@", ws)
 		new File(it.toString() + "/" + ws.replaceAll("\\.", "/") + "/AuthenticationDispatcher.java").text = file(ext.templateBasePath + "/client/ws/AuthenticationDispatcher.java").text.replaceAll("@package@", ws)
 
+		// client.event #######################################################
+		new File(it.toString() + "/" + event.replaceAll("\\.", "/")).mkdirs()
+		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticatedEvent.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedEvent.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
+		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticatedEventHandler.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedEventHandler.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
+
 		// .model #############################################################
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + model.replaceAll("\\.", "/") + "/CurrentUser.java").text = file(ext.templateBasePath + "/shared/model/CurrentUser.java").text.replaceAll("@package@", model)
@@ -132,6 +138,8 @@ scaffold << {
 		// .action ########################################################
 		new File(it.toString() + "/" + action.replaceAll("\\.", "/")).mkdirs()
 		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/Login.java").text = file(ext.templateBasePath + "/shared/action/Login.java").text.replaceAll("@package@", action)
+		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/LoginAction.java").text = file(ext.templateBasePath + "/shared/action/LoginAction.java").text.replaceAll("@package@", action)
+		new File(it.toString() + "/" + action.replaceAll("\\.", "/") + "/LoginResult.java").text = file(ext.templateBasePath + "/shared/action/LoginResult.java").text.replaceAll("@package@", action)
 
 		// .gatekeeper ########################################################
 		new File(it.toString() + "/" + gatekeeper.replaceAll("\\.", "/")).mkdirs()

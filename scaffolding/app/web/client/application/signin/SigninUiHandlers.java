@@ -21,6 +21,6 @@ import com.gwtplatform.mvp.client.UiHandlers;
 
 public interface SigninUiHandlers extends UiHandlers {
 
-	/** Add UiHandler stuff for the home page here */
+	void onSignin();
 
 } 
