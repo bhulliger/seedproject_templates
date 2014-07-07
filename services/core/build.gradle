@@ -4,7 +4,7 @@
 sourceSets {
     generated {
         java {
-            srcDirs = ['src/main/generated']
+            srcDir 'src/generated/java'
         }
     }	
 }

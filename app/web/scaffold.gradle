@@ -128,7 +128,7 @@ scaffold << {
 
 		// client.event #######################################################
 		new File(it.toString() + "/" + event.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticated.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticatedt.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
+		new File(it.toString() + "/" + event.replaceAll("\\.", "/") + "/LoginAuthenticated.java").text = file(ext.templateBasePath + "/client/event/LoginAuthenticated.java").text.replaceAll("@package@", event).replaceAll("@base@", base)
 
 		// client.util ########################################################
 		new File(it.toString() + "/" + util.replaceAll("\\.", "/")).mkdirs()

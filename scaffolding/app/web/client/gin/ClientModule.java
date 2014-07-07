@@ -62,7 +62,6 @@ public class ClientModule extends AbstractPresenterModule {
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
 
         // Gatekeepers
-        bind(CurrentUser.class).in(Singleton.class);
         bind(AdminGatekeeper.class).in(Singleton.class);
         bind(UserGatekeeper.class).in(Singleton.class);
         
