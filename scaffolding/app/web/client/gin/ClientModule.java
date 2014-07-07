@@ -21,23 +21,22 @@ import org.fusesource.restygwt.client.RestServiceProxy;
 
 import @base@.client.application.ApplicationPresenter;
 import @base@.client.application.ApplicationView;
-import @base@.client.application.signin.SigninPresenter;
-import @base@.client.application.signin.SigninView;
 import @base@.client.application.home.HomePresenter;
 import @base@.client.application.home.HomeView;
 import @base@.client.application.profile.ProfilePresenter;
 import @base@.client.application.profile.ProfileView;
+import @base@.client.application.signin.SigninPresenter;
+import @base@.client.application.signin.SigninView;
 import @base@.client.application.ui.UiModule;
-import @base@.client.place.NameTokens;
-import @base@.client.ws.BasicRestClient;
-
 import @base@.client.gatekeeper.AdminGatekeeper;
 import @base@.client.gatekeeper.UserGatekeeper;
-import @base@.shared.model.CurrentUser;
+import @base@.client.place.NameTokens;
+import @base@.client.ws.BasicRestClient;
 
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.gwtplatform.dispatch.rpc.client.gin.RpcDispatchAsyncModule;
 import com.gwtplatform.mvp.client.annotations.DefaultPlace;
 import com.gwtplatform.mvp.client.annotations.ErrorPlace;
 import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
@@ -55,19 +54,20 @@ public class ClientModule extends AbstractPresenterModule {
         
     	// Singletons -  DefaultModule initializes the DefaultPlaceManager
         install(new DefaultModule(DefaultPlaceManager.class));
-        
+        install(new RpcDispatchAsyncModule());
+
+        // Header & Footer
+        install(new UiModule());
+
         // Constants
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
 
         // Gatekeepers
-        bind(AdminGatekeeper.class).in(Singleton.class);
-        bind(UserGatekeeper.class).in(Singleton.class);
+        // bind(AdminGatekeeper.class).in(Singleton.class);
+        // bind(UserGatekeeper.class).in(Singleton.class);
         
-        // Header & Footer
-        install(new UiModule());
-
         // Presenters
         bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class, ApplicationPresenter.MyProxy.class);
         bindPresenter(SigninPresenter.class, SigninPresenter.MyView.class, SigninView.class, SigninPresenter.MyProxy.class);

@@ -16,6 +16,8 @@
 
 package @package@;
 
+import javax.inject.Inject;
+
 import @base@.shared.validation.FieldVerifier;
 import @base@.client.i18n.AppMessages;
 
@@ -29,7 +31,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
 public class SigninView extends ViewWithUiHandlers<SigninUiHandlers> implements SigninPresenter.MyView {

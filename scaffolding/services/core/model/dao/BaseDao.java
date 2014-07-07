@@ -8,11 +8,7 @@ import javax.annotation.security.DenyAll;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
-import com.mysema.query.jpa.impl.JPAQuery;
-
 import @base@.model.domain.Auditable;
-
 
 public abstract class BaseDao<T extends Auditable> {
 	

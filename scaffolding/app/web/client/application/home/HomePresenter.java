@@ -37,7 +37,7 @@ public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter
 
     @ProxyCodeSplit
     @NameToken(NameTokens.homePage)
-    @UseGatekeeper(UserGatekeeper.class)
+    // @UseGatekeeper(UserGatekeeper.class) // FIXME
     public interface MyProxy extends ProxyPlace<HomePresenter> {
     }
 

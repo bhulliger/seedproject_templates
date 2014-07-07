@@ -2,27 +2,25 @@ package @package@;
 
 import javax.inject.Inject;
 
-import com.gwtplatform.mvp.client.proxy.Gatekeeper;
+
+import @base@.client.event.LoginAuthenticatedEvent;
+import @base@.shared.model.CurrentUser;
+
 import com.google.gwt.event.shared.EventBus;
-import @shared@.model.CurrentUser;
+import com.gwtplatform.mvp.client.proxy.Gatekeeper;
 
 public class UserGatekeeper implements Gatekeeper {
 	
 	private final EventBus eventBus;
 	
-	private final CurrentUser currentUser;
+	private CurrentUser currentUser;
 
 	@Inject
-	public UserGateKeeper(final EventBus eventBus) {
+	public UserGatekeeper(final EventBus eventBus) {
 		this.eventBus = eventBus;
 
-		this.eventBus.addHandler(LoginAuthenticatedEvent.getType(), new LoginAuthenticatedEventHandler() {
-
-			public void onLogin(LoginAuthenticatedEvent event) {
-				currentUser = event.getCurrentUser();
-			}
-
-		});
+		this.eventBus.addHandler(LoginAuthenticatedEvent.getType(),
+				event -> currentUser = event.getCurrentUser());
 		
 	}
 

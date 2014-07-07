@@ -38,7 +38,7 @@ public class ProfilePresenter extends Presenter<ProfilePresenter.MyView, Profile
 
     @ProxyCodeSplit
     @NameToken(NameTokens.profilePage)
-    @UseGatekeeper(UserGatekeeper.class)
+    // UseGatekeeper(UserGatekeeper.class) // FIXME
     public interface MyProxy extends ProxyPlace<ProfilePresenter> {
     }
 

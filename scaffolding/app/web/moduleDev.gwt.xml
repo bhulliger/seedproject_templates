@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- When updating your version of GWT, you should also update this DTD reference, 
+  so that your app can take advantage of the latest GWT module capabilities. 
+  FIXME DTD document for 2.6.0 is not available (yet). There is a bug report:
+  https://code.google.com/p/google-web-toolkit/issues/detail?id=8599
+  -->
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
+  "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
+
+<module rename-to='@module@'>
+
+  <inherits name="@base@.@module@" />
+  <collapse-all-properties />
+
+</module>

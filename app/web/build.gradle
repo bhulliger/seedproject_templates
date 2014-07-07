@@ -1,12 +1,14 @@
 // ############################################################################
 // Source Sets & BuildScript
 // ############################################################################
+
 sourceSets {
-    generated {
+	main {
         java {
-            srcDir 'src/generated/java'
+            // srcDir 'src/java'
+            srcDirs = ['src/main/java', 'src/generated/java']
         }
-    }	
+    }
 }
 
 // ############################################################################
@@ -32,7 +34,23 @@ apply plugin: 'gwt'
 	
 gwt {
     gwtVersion='2.6.1'
-    modules rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name
+    
+    logLevel = 'INFO'
+
+    modules 	rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name
+    devModules 	rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name + "Dev"
+    
+    compiler {
+    	strict = true
+    	enableClosureCompiler = true
+    	disableClassMetadata = true
+    	disableCastChecking = true
+    }
+    
+    dev {
+    	noserver = true
+    	port = 1337
+    }
     
 	superDev { 
 		noPrecompile=true
@@ -46,7 +64,7 @@ gwt {
 compileJava {
 	doFirst {
 		options.compilerArgs = [
-			'-s', sourceSets.generated.java.srcDirs[0].toString()
+			'-s', sourceSets.main.java.srcDirs[1].toString()
 		]
 	}
 }

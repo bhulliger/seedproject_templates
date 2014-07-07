@@ -10,7 +10,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestException;
 import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64;
 
-class AuthenticationDispatcher implements Dispatcher {
+public class AuthenticationDispatcher implements Dispatcher {
 
 	public static final AuthenticationDispatcher INSTANCE = new AuthenticationDispatcher();
 

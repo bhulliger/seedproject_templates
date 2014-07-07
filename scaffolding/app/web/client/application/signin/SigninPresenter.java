@@ -18,20 +18,15 @@ package @package@;
 
 import javax.inject.Inject;
 
-import org.fusesource.restygwt.client.Method;
-
-import @base@.client.place.NameTokens;
-import @base@.client.ws.AbstractRestCallback;
-import @base@.shared.action.LoginResult;
-import @base@.shared.action.LoginAction;
-import @base@.shared.model.CurrentUser;
-import @base@.shared.validation.FieldVerifier;
 import @base@.client.event.LoginAuthenticatedEvent;
 import @base@.client.i18n.AppMessages;
+import @base@.client.place.NameTokens;
+import @base@.shared.action.LoginAction;
+import @base@.shared.action.LoginResult;
+import @base@.shared.model.CurrentUser;
 
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtplatform.dispatch.rpc.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.Presenter;
@@ -39,8 +34,8 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.NoGatekeeper;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
-import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 
