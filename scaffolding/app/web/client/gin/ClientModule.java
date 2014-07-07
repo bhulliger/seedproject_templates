@@ -34,6 +34,8 @@ import @base@.client.place.NameTokens;
 import @base@.client.ws.BasicRestClient;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtplatform.dispatch.rpc.client.gin.RpcDispatchAsyncModule;
@@ -59,8 +61,11 @@ public class ClientModule extends AbstractPresenterModule {
         // Header & Footer
         install(new UiModule());
 
+        // Singletons
+        bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
+
         // Constants
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.signinPage);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
 

@@ -8,22 +8,22 @@ scaffold << {
 	def domain = model + ".domain"
 	def dao = model + ".dao"
 
-	sourceSets.main*.java.srcDirs*.each {
-		// .domain ############################################################
-		new File(it.toString() + "/" + domain.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + domain.replaceAll("\\.", "/") + "/User.java").text = file(ext.templateBasePath + "/model/domain/User.java").text.replaceAll("@package@", domain)
-		new File(it.toString() + "/" + domain.replaceAll("\\.", "/") + "/Auditable.java").text = file(ext.templateBasePath + "/model/domain/Auditable.java").text.replaceAll("@package@", domain)
+	def srcFolder = sourceSets.main.java.srcDirs[0].toString() + "/"
+	def resourcesFolder = sourceSets.main.resources.srcDirs[0].toString() + "/"
 
-		// .dao ###############################################################
-		new File(it.toString() + "/" + dao.replaceAll("\\.", "/")).mkdirs()
-		new File(it.toString() + "/" + dao.replaceAll("\\.", "/") + "/BaseDao.java").text = file(ext.templateBasePath + "/model/dao/BaseDao.java").text.replaceAll("@package@", dao).replaceAll("@base@", base)
-		new File(it.toString() + "/" + dao.replaceAll("\\.", "/") + "/UserDao.java").text = file(ext.templateBasePath + "/model/dao/UserDao.java").text.replaceAll("@package@", dao).replaceAll("@base@", base)
-	}
+	// .domain ############################################################
+	new File(srcFolder + domain.replaceAll("\\.", "/")).mkdirs()
+	new File(srcFolder + domain.replaceAll("\\.", "/") + "/User.java").text = file(ext.templateBasePath + "/model/domain/User.java").text.replaceAll("@package@", domain)
+	new File(srcFolder + domain.replaceAll("\\.", "/") + "/Auditable.java").text = file(ext.templateBasePath + "/model/domain/Auditable.java").text.replaceAll("@package@", domain)
+
+	// .dao ###############################################################
+	new File(srcFolder + dao.replaceAll("\\.", "/")).mkdirs()
+	new File(srcFolder + dao.replaceAll("\\.", "/") + "/BaseDao.java").text = file(ext.templateBasePath + "/model/dao/BaseDao.java").text.replaceAll("@package@", dao).replaceAll("@base@", base)
+	new File(srcFolder + dao.replaceAll("\\.", "/") + "/UserDao.java").text = file(ext.templateBasePath + "/model/dao/UserDao.java").text.replaceAll("@package@", dao).replaceAll("@base@", base)
 		
-	/*sourceSets.main*.resources.srcDirs*.each {
-		// .resources #########################################################
-		new File(it.toString() + "/domain.mdsd").text = file(ext.templateBasePath + "domain.mdsd").text.replaceAll("@package@", model)
-		new File(it.toString() + "/domain.properties").text = file(ext.templateBasePath + "domain.properties").text.replaceAll("@base@", base)
-		new File(it.toString() + "/crudServiceTemplate.txt").text = file(ext.templateBasePath + "crudServiceTemplate.txt").text
-	}*/
+	// .resources #########################################################
+	// new File(resourcesFolder + "/domain.mdsd").text = file(ext.templateBasePath + "domain.mdsd").text.replaceAll("@package@", model)
+	new File(resourcesFolder + "/domain.properties").text = file(ext.templateBasePath + "domain.properties").text.replaceAll("@base@", base)
+	new File(resourcesFolder + "/crudServiceTemplate.txt").text = file(ext.templateBasePath + "crudServiceTemplate.txt").text
+	
 }

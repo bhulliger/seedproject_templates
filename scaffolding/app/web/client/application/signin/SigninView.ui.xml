@@ -25,7 +25,7 @@
 					<b:FieldSet>
 						<b:FormGroup ui:field="credentialsGroup">
 							<b:FormLabel for="formUsername" text="{constants.username}"/>
-							<b:Input b:id="formUsername" ui:field="username" />
+							<b:Input b:id="formUsername" type="TEXT"  ui:field="username" />
 							<b:FormLabel for="formPassword" text="{constants.password}" />
 							<b:Input type="PASSWORD" b:id="formPassword" ui:field="password" />
 							<b:Button text="{constants.signin}" type="PRIMARY" ui:field="signin" />
@@ -34,8 +34,6 @@
 				</b:Form>
 
 			</b:Container>
-
-			<my:Footer ui:field="footer" />
 
 		</g:FlowPanel>
 

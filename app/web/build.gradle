@@ -5,7 +5,6 @@
 sourceSets {
 	main {
         java {
-            // srcDir 'src/java'
             srcDirs = ['src/main/java', 'src/generated/java']
         }
     }
@@ -47,11 +46,6 @@ gwt {
     	disableCastChecking = true
     }
     
-    dev {
-    	noserver = true
-    	port = 1337
-    }
-    
 	superDev { 
 		noPrecompile=true
 	}
@@ -64,7 +58,16 @@ gwt {
 compileJava {
 	doFirst {
 		options.compilerArgs = [
+			'-proc:none',
 			'-s', sourceSets.main.java.srcDirs[1].toString()
+		]
+	}
+}
+
+compileGwt {
+	doFirst {
+		options.compilerArgs = [
+			'-proc:none'
 		]
 	}
 }
