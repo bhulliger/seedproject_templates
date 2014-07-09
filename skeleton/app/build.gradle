@@ -19,7 +19,7 @@ subprojects {
 	// Project Initialization
 	// ############################################################################
 	apply plugin: "war"
-	initProject << {
+	initProject {
 		webAppDir.mkdirs()
 		new File(webAppDir.toString() + "/WEB-INF").mkdirs()
 		new File(webAppDir.toString() + "/META-INF").mkdirs()

@@ -115,7 +115,7 @@ scaffold << {
 	new File(srcFolder + i18n.replaceAll("\\.", "/")).mkdirs()
 	new File(srcFolder + i18n.replaceAll("\\.", "/") + "/AppConstants.java").text = file(ext.templateBasePath + "/client/i18n/AppConstants.java").text.replaceAll("@package@", i18n)
 	new File(srcFolder + i18n.replaceAll("\\.", "/") + "/AppMessages.java").text = file(ext.templateBasePath + "/client/i18n/AppMessages.java").text.replaceAll("@package@", i18n)
-	new File(srcFolder + i18n.replaceAll("\\.", "/") + "/AppConfig.java").text = file(ext.templateBasePath + "/client/i18n/AppConfig.java").text.replaceAll("@package@", i18n).replaceAll("@version@", version).replaceAll("@buildDate@", new Date().toString())
+	new File(srcFolder + i18n.replaceAll("\\.", "/") + "/AppConfig.java").text = file(ext.templateBasePath + "/client/i18n/AppConfig.java").text.replaceAll("@package@", i18n).replaceAll("@version@", version.toString()).replaceAll("@buildDate@", new Date().toString())
 
 	// .resources #########################################################
 	new File(srcFolder + resources.replaceAll("\\.", "/")).mkdirs()
