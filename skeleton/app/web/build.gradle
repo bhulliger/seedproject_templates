@@ -1,33 +1,33 @@
-// ############################################################################
-// Source Sets & BuildScript
-// ############################################################################
-
-sourceSets {
-	main {
-        java {
-            srcDirs = ['src/main/java', 'src/generated/java']
-        }
-    }
-}
+import org.apache.tools.ant.filters.ReplaceTokens	
 
 // ############################################################################
 // Dependencies
 // ############################################################################
 dependencies {
-	compile project(':services:core')
+	// project dependencies
+	compile project(':app:core')
 
+	// dozer
+	compile 			group: 'net.sf.dozer', 					name: 'dozer',					version: '5.5.+'
+
+	// GWT Bootstrap for layouting
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3', 			version: '0.7'
 	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3-extras',	version: '0.7'
 	
+	// GWTP
 	providedCompile		group: 'com.gwtplatform', 				name: 'gwtp-all', 				version: '1.2.+'
 	providedCompile		group: 'com.googlecode.gwt-crypto', 	name: 'gwt-crypto', 			version: '2.3.0'
-
 }
+
+// ############################################################################
+// Cargo
+// ############################################################################
+apply from: "$rootDir/gradle/cargo.gradle"
 
 // ############################################################################
 // GWT Build Tasks
 // ############################################################################
-apply from: "../gwt.gradle"
+apply from: "$rootDir/gradle/gwt.gradle"
 
 apply plugin: 'gwt'
 	
@@ -59,15 +59,81 @@ compileJava {
 	doFirst {
 		options.compilerArgs = [
 			'-proc:none',
-			'-s', sourceSets.main.java.srcDirs[1].toString()
+			'-s', sourceSets.generated.java.srcDirs.iterator().next()
 		]
 	}
 }
 
-compileGwt {
-	doFirst {
-		options.compilerArgs = [
-			'-proc:none'
-		]
+// ############################################################################
+// Packaging
+// ############################################################################
+processResources {
+	exclude "*.mdsd"
+}
+
+task createBuildInfoFile << {
+	description 'writes a build-info.properties file with version and timestamp'
+	def buildInfoFile = new File("$buildDir/build-info.properties")
+	Properties properties = new Properties()
+	properties.setProperty('version', project.version.toString())
+	properties.setProperty('timestamp', project.buildTimestamp)
+	properties.store(buildInfoFile.newWriter(), null)
+}
+
+war {
+	dependsOn createBuildInfoFile
+
+	war.rootSpec.exclude "**/web/client/**"
+	war.rootSpec.exclude "org/fusesorce/**"
+
+	from(buildDir) {
+		include 'build-info.properties'
+		into('WEB-INF/classes')
+	}
+}
+
+war.doLast {
+	delete fileTree('./war')
+	ant.unzip(src: war.archivePath, dest: './war')
+}
+
+jar {
+	from project.sourceSets.main.allJava
+}
+
+processResources {
+	filter(ReplaceTokens, tokens: [ 'version': project.version.toString(), 'buildTime': buildTimestamp ] )
+	exclude '*.mdsd'
+}
+
+// ############################################################################
+// Eclipse Project Nature for generated sources
+// ############################################################################
+eclipse {
+	project {
+		natures 'org.eclipse.xtext.ui.shared.xtextNature'
+		natures 'com.google.gwt.eclipse.core.gwtNature'
+		natures 'org.sonar.ide.eclipse.core.sonarNature'
+		buildCommand 'org.eclipse.xtext.ui.shared.xtextBuilder'
+		buildCommand 'com.google.gdt.eclipse.core.webAppProjectValidator'
+		buildCommand 'com.google.gwt.eclipse.core.gwtProjectValidator'
+	}
+
+	classpath {
+		containers.clear();
+		containers 'org.eclipse.jdt.launching.JRE_CONTAINER','com.google.gwt.eclipse.core.GWT_CONTAINER','org.eclipse.jst.j2ee.internal.web.container'
+
+		defaultOutputDir = file('war/WEB-INF/classes')
+	}
+
+	wtp {
+		component {
+			//Damit keine Client Klassen auf den App Server deployed werden
+			property name: 'component.exclusion.patterns', value: 'WEB-INF/classes/**/client/**'
+			property name: 'component.exclusion.patterns', value: 'WEB-INF/classes/org/fusesource/**'
+			//Damit die kompilierte GWT Anwendung bei der Entwicklung deployed wird
+			resource sourcePath: "/war/$rootProject.name", deployPath: "$rootProject.name"
+			resource sourcePath: '/src/main/webapp', deployPath: '/'
+		}
 	}
 }
