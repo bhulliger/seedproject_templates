@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,6 +34,6 @@ public interface BasicRestClient extends RestService {
 	@Path("/v1/user")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Options(expect = HttpConstants.STATUS_OK)
-	void getUser(AbstractRestCallback<CurrentUser> user);
-	
+	void getUser(final AbstractRestCallback<CurrentUser> user);
+
 }

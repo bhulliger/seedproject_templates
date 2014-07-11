@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,11 +16,11 @@
 
 package @package@;
 
-import @base@.client.application.ApplicationPresenter;
-import @base@.client.place.NameTokens;
-import @base@.client.gatekeeper.UserGatekeeper;
-
 import javax.inject.Inject;
+
+import @base@.client.application.ApplicationPresenter;
+import @base@.client.gatekeeper.UserGatekeeper;
+import @base@.client.place.NameTokens;
 
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -32,17 +32,17 @@ import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 
 public class HomePresenter extends Presenter<HomePresenter.MyView, HomePresenter.MyProxy> implements HomeUiHandlers {
-    public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
-    }
-
     @ProxyCodeSplit
     @NameToken(NameTokens.homePage)
-    // @UseGatekeeper(UserGatekeeper.class) // FIXME
+    @UseGatekeeper(UserGatekeeper.class)
     public interface MyProxy extends ProxyPlace<HomePresenter> {
     }
 
+    public interface MyView extends View, HasUiHandlers<HomeUiHandlers> {
+    }
+
     @Inject
-    public HomePresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    public HomePresenter(final EventBus eventBus, final MyView view, final MyProxy proxy) {
         super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 
         view.setUiHandlers(this);

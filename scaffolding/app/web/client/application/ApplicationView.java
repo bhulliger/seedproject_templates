@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,8 +18,8 @@ package @package@;
 
 import javax.inject.Inject;
 
-import @base@.client.application.ui.Header;
 import @base@.client.application.ui.Footer;
+import @base@.client.application.ui.Header;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
@@ -34,13 +34,17 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     public interface Binder extends UiBinder<Widget, ApplicationView> {
     }
 
-    @UiField(provided=true) Header header; // NOSONAR
-    @UiField(provided=true) Footer footer; // NOSONAR
-    @UiField SimplePanel mainContentPanel; // NOSONAR
-    @UiField Element loadingMessage; // NOSONAR
+    @UiField(provided = true)
+    Header header; // NOSONAR
+    @UiField(provided = true)
+    Footer footer; // NOSONAR
+    @UiField
+    SimplePanel mainContentPanel; // NOSONAR
+    @UiField
+    Element loadingMessage; // NOSONAR
 
     @Inject
-    public ApplicationView(Binder uiBinder, Header header, Footer footer) {
+    public ApplicationView(final Binder uiBinder, final Header header, final Footer footer) {
 
         this.header = header;
         this.footer = footer;
@@ -49,7 +53,7 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     }
 
     @Override
-    public void setInSlot(Object slot, IsWidget content) {
+    public void setInSlot(final Object slot, final IsWidget content) {
         if (slot == ApplicationPresenter.SLOT_SetMainContent) {
             mainContentPanel.setWidget(content);
         } else {
@@ -58,7 +62,7 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     }
 
     @Override
-    public void showLoading(boolean visible) {
+    public void showLoading(final boolean visible) {
         loadingMessage.getStyle().setVisibility(visible ? Visibility.VISIBLE : Visibility.HIDDEN);
     }
 }

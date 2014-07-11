@@ -22,8 +22,7 @@ scaffold << {
 	new File(srcFolder + dao.replaceAll("\\.", "/") + "/UserDao.java").text = file(ext.templateBasePath + "/model/dao/UserDao.java").text.replaceAll("@package@", dao).replaceAll("@base@", base)
 		
 	// .resources #########################################################
-	// new File(resourcesFolder + "/domain.mdsd").text = file(ext.templateBasePath + "domain.mdsd").text.replaceAll("@package@", model)
-	new File(resourcesFolder + "/domain.properties").text = file(ext.templateBasePath + "domain.properties").text.replaceAll("@base@", base)
-	new File(resourcesFolder + "/crudServiceTemplate.txt").text = file(ext.templateBasePath + "crudServiceTemplate.txt").text
+	//new File(resourcesFolder + "/domain.mdsd").text = file(ext.templateBasePath + "domain.mdsd").text.replaceAll("@package@", model)
+	//new File(resourcesFolder + "/domain.properties").text = file(ext.templateBasePath + "domain.properties").text.replaceAll("@base@", base)
 	
 }

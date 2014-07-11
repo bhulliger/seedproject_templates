@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,10 +17,9 @@
 package @package@;
 
 public abstract class HttpConstants {
-	
+
 	public static final int STATUS_OK = 200;
 	public static final int STATUS_CREATED = 201;
 	public static final int STATUS_NO_CONTENT = 204;
-
 
 }

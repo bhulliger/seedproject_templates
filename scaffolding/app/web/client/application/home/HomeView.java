@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,11 +22,11 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
 public class HomeView extends ViewWithUiHandlers<HomeUiHandlers> implements HomePresenter.MyView {
-    public interface Binder extends UiBinder<Widget, HomeView> {
-    }
+	public interface Binder extends UiBinder<Widget, HomeView> {
+	}
 
-    @Inject
-    public HomeView(Binder uiBinder) {
-        initWidget(uiBinder.createAndBindUi(this));
-    }
+	@Inject
+	public HomeView(final Binder uiBinder) {
+		initWidget(uiBinder.createAndBindUi(this));
+	}
 }

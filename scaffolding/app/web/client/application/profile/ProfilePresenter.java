@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,11 +16,11 @@
 
 package @package@;
 
+import javax.inject.Inject;
+
 import @base@.client.application.ApplicationPresenter;
 import @base@.client.place.NameTokens;
 import @base@.client.gatekeeper.UserGatekeeper;
-
-import javax.inject.Inject;
 
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -32,18 +32,19 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 
 
-public class ProfilePresenter extends Presenter<ProfilePresenter.MyView, ProfilePresenter.MyProxy> implements ProfileUiHandlers {
-    public interface MyView extends View, HasUiHandlers<ProfileUiHandlers> {
-    }
-
+public class ProfilePresenter extends Presenter<ProfilePresenter.MyView, ProfilePresenter.MyProxy> implements
+        ProfileUiHandlers {
     @ProxyCodeSplit
     @NameToken(NameTokens.profilePage)
-    // UseGatekeeper(UserGatekeeper.class) // FIXME
+    @UseGatekeeper(UserGatekeeper.class)
     public interface MyProxy extends ProxyPlace<ProfilePresenter> {
     }
 
+    public interface MyView extends View, HasUiHandlers<ProfileUiHandlers> {
+    }
+
     @Inject
-    public ProfilePresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    public ProfilePresenter(final EventBus eventBus, final MyView view, final MyProxy proxy) {
         super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 
         view.setUiHandlers(this);

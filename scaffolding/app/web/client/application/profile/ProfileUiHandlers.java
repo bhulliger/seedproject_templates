@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,7 +14,6 @@
  * the License.
  */
 
-
 package @package@;
 
 import com.gwtplatform.mvp.client.UiHandlers;
@@ -23,4 +22,4 @@ public interface ProfileUiHandlers extends UiHandlers {
 
 	/** Add UiHandler stuff for the home page here */
 
-} 
+}

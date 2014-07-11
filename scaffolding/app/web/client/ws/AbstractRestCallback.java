@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,16 +26,16 @@ import org.fusesource.restygwt.client.ResponseFormatException;
 import com.google.gwt.http.client.Response;
 import com.google.web.bindery.event.shared.EventBus;
 
-public abstract class AbstractRestCallback<T> implements  MethodCallback<T> {
+public abstract class AbstractRestCallback<T> implements MethodCallback<T> {
 
 	@Inject
 	private static EventBus eventBus;
 
 	@Override
-	public final void onFailure(Method method, Throwable caught) {
+	public final void onFailure(final Method method, final Throwable caught) {
 
 		if (caught instanceof FailedStatusCodeException) {
-			FailedStatusCodeException exception = (FailedStatusCodeException) caught;
+			final FailedStatusCodeException exception = (FailedStatusCodeException) caught;
 			switch (exception.getStatusCode()) {
 				case Response.SC_UNAUTHORIZED:
 					// TODO Auto-generated method stub

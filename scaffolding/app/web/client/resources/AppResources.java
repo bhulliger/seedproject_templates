@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package @package@;
 
 import com.google.gwt.resources.client.ClientBundle;
@@ -35,8 +36,6 @@ public interface AppResources extends ClientBundle {
 	public Styles styles();
 
 	public Sprites sprites();
-
-
 
 	// @Source("images/logo.png")
 	// @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.Horizontal, width = 50)

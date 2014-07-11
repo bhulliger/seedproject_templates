@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,46 +35,49 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 public class Header extends Composite {
-
 	interface Binder extends UiBinder<Widget, Header> {
 	}
 
-	@UiField ListItem home; // NOSONAR
-	
-	@UiField ListDropDown currentUserMenu; // NOSONAR
-	@UiField AnchorButton currentUserName; // NOSONAR
-	@UiField ListItem profile; // NOSONAR
-	@UiField ListItem signout; // NOSONAR
-	
-	private PlaceManager placeManager;
+	@UiField
+	ListItem home; // NOSONAR
+
+	@UiField
+	ListDropDown currentUserMenu; // NOSONAR
+	@UiField
+	AnchorButton currentUserName; // NOSONAR
+	@UiField
+	ListItem profile; // NOSONAR
+	@UiField
+	ListItem signout; // NOSONAR
+
+	private final PlaceManager placeManager;
 
 	@Inject
-	public Header(Binder binder, PlaceManager placeManager, AppResources resources) {
+	public Header(final Binder binder, final PlaceManager placeManager, final AppResources resources) {
 
 		this.placeManager = placeManager;
 
 		initWidget(binder.createAndBindUi(this));
 	}
 
-	@UiHandler("signout")
-	void onSignout(ClickEvent event) {
+	@UiHandler("home")
+	void onHome(final ClickEvent event) {
+		final PlaceRequest request = new PlaceRequest.Builder().nameToken(NameTokens.homePage).build();
 
-		// TODO Auto-generated method stub
-
+		placeManager.revealPlace(request);
 	}
 
 	@UiHandler("profile")
-	void onProfile(ClickEvent event) {
-		PlaceRequest request = new PlaceRequest.Builder().nameToken(NameTokens.profilePage).build();
+	void onProfile(final ClickEvent event) {
+		final PlaceRequest request = new PlaceRequest.Builder().nameToken(NameTokens.profilePage).build();
 		placeManager.revealPlace(request);
 	}
 
-	@UiHandler("home")
-	void onHome(ClickEvent event) {
-		PlaceRequest request = new PlaceRequest.Builder().nameToken(
-				NameTokens.homePage).build();
+	@UiHandler("signout")
+	void onSignout(final ClickEvent event) {
 
-		placeManager.revealPlace(request);
+		// TODO Auto-generated method stub
+
 	}
 
 }

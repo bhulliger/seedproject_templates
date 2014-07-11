@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -36,7 +36,7 @@ public class Footer extends Composite {
 	Label version, buildDate; // NOSONAR
 
 	@Inject
-	public Footer(Binder binder, AppMessages messages, AppConfig config) {
+	public Footer(final Binder binder, final AppMessages messages, final AppConfig config) {
 		version = new Label();
 		buildDate = new Label();
 

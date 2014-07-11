@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,16 +29,7 @@ public class CurrentUser implements Serializable {
 
 	private boolean authenticated = true;
 
-	public CurrentUser(String username) {
-		this.username = username;
-	}
-
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
+	public CurrentUser(final String username) {
 		this.username = username;
 	}
 
@@ -46,20 +37,28 @@ public class CurrentUser implements Serializable {
 		return this.roles;
 	}
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public String getUsername() {
+		return this.username;
+	}
+
+	public boolean isAdmin() {
+		return roles != null && roles.contains("ROLE_ADMIN");
 	}
 
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
-	public void setAuthenticated(boolean authenticated) {
+	public void setAuthenticated(final boolean authenticated) {
 		this.authenticated = authenticated;
 	}
 
-	public boolean isAdmin() {
-		return roles != null && roles.contains("ROLE_ADMIN");
+	public void setRoles(final List<String> roles) {
+		this.roles = roles;
 	}
-	
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
+
 }

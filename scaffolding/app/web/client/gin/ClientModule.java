@@ -54,7 +54,7 @@ public class ClientModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
         
-    	// Singletons -  DefaultModule initializes the DefaultPlaceManager
+        // Singletons - DefaultModule initializes the DefaultPlaceManager
         install(new DefaultModule(DefaultPlaceManager.class));
         install(new RpcDispatchAsyncModule());
 
@@ -65,19 +65,22 @@ public class ClientModule extends AbstractPresenterModule {
         bind(EventBus.class).to(SimpleEventBus.class).in(Singleton.class);
 
         // Constants
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.signinPage);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
-        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.signinPage);
 
         // Gatekeepers
-        // bind(AdminGatekeeper.class).in(Singleton.class);
-        // bind(UserGatekeeper.class).in(Singleton.class);
-        
+        bind(AdminGatekeeper.class).in(Singleton.class);
+        bind(UserGatekeeper.class).in(Singleton.class);
+
         // Presenters
-        bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class, ApplicationPresenter.MyProxy.class);
-        bindPresenter(SigninPresenter.class, SigninPresenter.MyView.class, SigninView.class, SigninPresenter.MyProxy.class);
+        bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class,
+                ApplicationPresenter.MyProxy.class);
+        bindPresenter(SigninPresenter.class, SigninPresenter.MyView.class, SigninView.class,
+                SigninPresenter.MyProxy.class);
         bindPresenter(HomePresenter.class, HomePresenter.MyView.class, HomeView.class, HomePresenter.MyProxy.class);
-        bindPresenter(ProfilePresenter.class, ProfilePresenter.MyView.class, ProfileView.class, ProfilePresenter.MyProxy.class);
+        bindPresenter(ProfilePresenter.class, ProfilePresenter.MyView.class, ProfileView.class,
+                ProfilePresenter.MyProxy.class);
 
         // Load and inject CSS Resources
         bind(ResourceLoader.class).asEagerSingleton();

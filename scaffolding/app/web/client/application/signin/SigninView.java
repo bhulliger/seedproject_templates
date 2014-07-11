@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,12 +18,14 @@ package @package@;
 
 import javax.inject.Inject;
 
-import @base@.shared.validation.FieldVerifier;
-import @base@.client.i18n.AppMessages;
-
 import org.gwtbootstrap3.client.ui.Alert;
-import org.gwtbootstrap3.client.ui.Input;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Input;
+import org.gwtbootstrap3.client.ui.constants.AlertType;
+
+import @base@.client.application.ui.Footer;
+import @base@.client.i18n.AppMessages;
+import @base@.shared.validation.FieldVerifier;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -37,53 +39,39 @@ public class SigninView extends ViewWithUiHandlers<SigninUiHandlers> implements 
     public interface Binder extends UiBinder<Widget, SigninView> {
     }
 
-    @UiField Alert alert; // NOSONAR
-    @UiField Label alertMessage; // NOSONAR
+    @UiField(provided = true)
+    Footer footer;
+    @UiField
+    Alert alert; // NOSONAR
+    @UiField
+    Label alertMessage; // NOSONAR
 
-    @UiField Button signin; // NOSONAR
-    @UiField Input username; // NOSONAR
-    @UiField Input password; // NOSONAR
+    @UiField
+    Button signin; // NOSONAR
+    @UiField
+    Input username; // NOSONAR
+    @UiField
+    Input password; // NOSONAR
 
-    private AppMessages messages; 
+    private final AppMessages messages;
 
     @Inject
-    public SigninView(Binder uiBinder, AppMessages messages) {
-        initWidget(uiBinder.createAndBindUi(this));
+    public SigninView(final Binder uiBinder, final AppMessages messages, final Footer footer) {
+        
         this.messages = messages;
-    }
+        this.footer = footer;
 
-    @UiHandler("signin")
-    void onSignin(ClickEvent event) {
-
-    	if (FieldVerifier.isValidUsername(getUsername()) && FieldVerifier.isValidPassword(getPassword())) {
-            alert.setVisible(false);
-	    	if (getUiHandlers() != null) {
-	    		getUiHandlers().onSignin();
-	    	}
-    	} else {
-            showAlert(messages.invalidCredentialsTitle(), messages.invalidCredentialsMessage());
-            
-            alert.setVisible(true);
-            resetAndFocus();
-    	}
-
-    }
-
-    @Override
-    public String getUsername() {
-    	return this.username.getText();
+        initWidget(uiBinder.createAndBindUi(this));
     }
 
     @Override
     public String getPassword() {
-    	return this.password.getText();
+        return this.password.getText();
     }
 
     @Override
-    public void showAlert(String title, String message) {
-        alert.setTitle(title);
-        alertMessage.setText(message);
-        alert.setVisible(true);
+    public String getUsername() {
+        return this.username.getText();
     }
 
     @Override
@@ -91,9 +79,34 @@ public class SigninView extends ViewWithUiHandlers<SigninUiHandlers> implements 
         alert.setVisible(false);
     }
 
+    @UiHandler("signin")
+    void onSignin(final ClickEvent event) {
+
+        if (FieldVerifier.isValidUsername(getUsername()) && FieldVerifier.isValidPassword(getPassword())) {
+            alert.setVisible(false);
+            if (getUiHandlers() != null) {
+                getUiHandlers().onSignin();
+            }
+        } else {
+            showAlert(messages.invalidCredentialsTitle(), messages.invalidCredentialsMessage(), AlertType.WARNING);
+
+            alert.setVisible(true);
+            resetAndFocus();
+        }
+
+    }
+
     @Override
     public void resetAndFocus() {
         this.username.setFocus(true);
         this.username.selectAll();
+    }
+
+    @Override
+    public void showAlert(final String title, final String message, AlertType type) {
+        alert.setTitle(title);
+        alertMessage.setText(message);
+        alert.setVisible(true);
+        alert.setType(type);
     }
 }

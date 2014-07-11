@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Brigitte Hulliger
+ * Copyright 2014 Brigitte Hulliger
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,21 +17,21 @@
 package @package@;
 
 public class NameTokens {
-    public static final String homePage = "!homePage";
-
     public static String getHomePage() {
         return homePage;
     }
 
-    public static final String profilePage = "!profilePage";
-
     public static String getProfilePage() {
-    	return profilePage;
+        return profilePage;
     }
-
-    public static final String signinPage = "!signinPage";
 
     public static String getSigninPage() {
-    	return signinPage;
+        return signinPage;
     }
+
+    public static final String homePage = "!homePage";
+
+    public static final String profilePage = "!profilePage";
+
+    public static final String signinPage = "!signinPage";
 }

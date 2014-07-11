@@ -7,6 +7,9 @@ dependencies {
 	// project dependencies
 	compile project(':app:core')
 
+	// FIXME tell gwt that there are source files in the generated source sets too.
+	compile files(sourceSets.generated.java.srcDirs) 
+
 	// dozer
 	compile 			group: 'net.sf.dozer', 					name: 'dozer',					version: '5.5.+'
 
@@ -32,7 +35,7 @@ apply from: "$rootDir/gradle/gwt.gradle"
 apply plugin: 'gwt'
 	
 gwt {
-    gwtVersion='2.6.1'
+    gwtVersion='2.7.0-SNAPSHOT'
     
     logLevel = 'INFO'
 
@@ -58,7 +61,6 @@ gwt {
 compileJava {
 	doFirst {
 		options.compilerArgs = [
-			'-proc:none',
 			'-s', sourceSets.generated.java.srcDirs.iterator().next()
 		]
 	}

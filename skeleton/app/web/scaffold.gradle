@@ -150,6 +150,7 @@ scaffold << {
 
 	// .gatekeeper ########################################################
 	new File(srcFolder + gatekeeper.replaceAll("\\.", "/")).mkdirs()
+	new File(srcFolder + gatekeeper.replaceAll("\\.", "/") + "/AbstractGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/AbstractGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared).replaceAll("@base@", base)
 	new File(srcFolder + gatekeeper.replaceAll("\\.", "/") + "/UserGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/UserGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared).replaceAll("@base@", base)
 	new File(srcFolder + gatekeeper.replaceAll("\\.", "/") + "/AdminGatekeeper.java").text = file(ext.templateBasePath + "/client/gatekeeper/AdminGatekeeper.java").text.replaceAll("@package@", gatekeeper).replaceAll("@shared@", shared).replaceAll("@base@", base)
 

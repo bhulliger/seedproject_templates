@@ -9,33 +9,36 @@
 
              <ui:with type="@base@.client.i18n.AppConstants" field="constants"></ui:with>
 
-    <g:HTMLPanel>
+	<g:HTMLPanel>
 
-		<g:FlowPanel>
+			<b:FluidContainer>
+				<b:Row>
+					<b:Column size="SM_4,MD_4,LG_4" push="SM_4,MD_4,LG_4">
+						<b:Heading size="2" text="{constants.signin}" />
 
-			<b:Container>
+						<b:Alert ui:field="alert" visible="false">
+							<g:Label ui:field="alertMessage" />
+						</b:Alert>
 
-				<b:Heading size="2" text="{constants.signin}" />
+						<b:Form>
+							<b:FieldSet>
+								<b:FormGroup ui:field="credentialsGroup">
+									<b:FormLabel for="formUsername" text="{constants.username}" />
+									<b:Input b:id="formUsername" type="TEXT" ui:field="username" />
+									<b:FormLabel for="formPassword" text="{constants.password}" />
+									<b:Input type="PASSWORD" b:id="formPassword" ui:field="password" />
+								</b:FormGroup>
+								<b:Button text="{constants.signin}" type="PRIMARY"
+									ui:field="signin" />
+							</b:FieldSet>
+						</b:Form>
+					</b:Column>
+				</b:Row>
+			</b:FluidContainer>
 
-				<b:Alert ui:field="alert" visible="false">
-					<g:Label ui:field="alertMessage" />
-				</b:Alert>
 
-				<b:Form>
-					<b:FieldSet>
-						<b:FormGroup ui:field="credentialsGroup">
-							<b:FormLabel for="formUsername" text="{constants.username}"/>
-							<b:Input b:id="formUsername" type="TEXT"  ui:field="username" />
-							<b:FormLabel for="formPassword" text="{constants.password}" />
-							<b:Input type="PASSWORD" b:id="formPassword" ui:field="password" />
-							<b:Button text="{constants.signin}" type="PRIMARY" ui:field="signin" />
-						</b:FormGroup>
-					</b:FieldSet>
-				</b:Form>
+			<my:Footer ui:field="footer" />
 
-			</b:Container>
-
-		</g:FlowPanel>
 
 	</g:HTMLPanel>
 
