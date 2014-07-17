@@ -57,6 +57,7 @@ scaffold << {
 	
 	def srcFolder = sourceSets.main.java.srcDirs[0].toString() + "/"
 	def resourcesFolder = sourceSets.main.resources.srcDirs[0].toString() + "/"
+	def testFolder = sourceSets.test.java.srcDirs[0].toString() + "/"
 
 	// Module file (*.gwt.xml) ############################################
 	new File(srcFolder + base.replaceAll("\\.", "/")).mkdirs()
@@ -96,6 +97,10 @@ scaffold << {
 	new File(srcFolder + signin.replaceAll("\\.", "/") + "/SigninPresenter.java").text = file(ext.templateBasePath + "/client/application/signin/SigninPresenter.java").text.replaceAll("@package@", signin).replaceAll("@base@", base)
 	new File(srcFolder + signin.replaceAll("\\.", "/") + "/SigninView.java").text = file(ext.templateBasePath + "/client/application/signin/SigninView.java").text.replaceAll("@package@", signin).replaceAll("@base@", base)
 	new File(srcFolder + signin.replaceAll("\\.", "/") + "/SigninView.ui.xml").text = file(ext.templateBasePath + "/client/application/signin/SigninView.ui.xml").text.replaceAll("@base@", base)
+
+	new File(testFolder + signin.replaceAll("\\.", "/")).mkdirs()
+	new File(testFolder + signin.replaceAll("\\.", "/") + "/SigninPresenterTest.java").text = file(ext.templateBasePath + "/client/application/signin/SigninPresenterTest.java").text.replaceAll("@package@", signin).replaceAll("@base@", base)
+
 
 	// .application.home ##################################################
 	new File(srcFolder + home.replaceAll("\\.", "/")).mkdirs()
