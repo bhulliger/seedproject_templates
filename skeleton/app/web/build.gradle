@@ -18,6 +18,7 @@ buildscript {
 // ############################################################################
 // Java Configuration
 // ############################################################################
+apply from: "$rootDir/gradle/java/providedCompile.gradle"
 apply from: "$rootDir/gradle/java/java.gradle"
 
 // ############################################################################
@@ -104,6 +105,8 @@ task createBuildInfoFile << {
 	properties.store(buildInfoFile.newWriter(), null)
 }
 
+apply plugin: "war"
+
 war {
 	dependsOn createBuildInfoFile
 
@@ -166,8 +169,6 @@ eclipse {
 // ################################################################################
 // Project Initialization
 // ################################################################################
-apply plugin: "war"
-
 apply from: "scaffold.gradle"
 
 initProject {
