@@ -18,6 +18,7 @@ buildscript {
 // ############################################################################
 // Java Configuration
 // ############################################################################
+apply plugin: "java"
 apply plugin: "war" 
 apply from: "$rootDir/gradle/java/java.gradle"
 
