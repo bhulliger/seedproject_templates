@@ -1,6 +1,21 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 // ############################################################################
+// GWT Gradle Plugin
+// ############################################################################
+buildscript {
+    repositories {
+        maven {
+            url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
+    }
+}
+
+// ############################################################################
 // Java Configuration
 // ############################################################################
 apply from: "$rootDir/gradle/java/java.gradle"
@@ -145,4 +160,18 @@ eclipse {
 			resource sourcePath: '/src/main/webapp', deployPath: '/'
 		}
 	}
+}
+
+
+// ################################################################################
+// Project Initialization
+// ################################################################################
+apply plugin: "war"
+
+apply from: "scaffold.gradle"
+
+initProject {
+	webAppDir.mkdirs()
+	new File(webAppDir.toString() + "/WEB-INF").mkdirs()
+	new File(webAppDir.toString() + "/META-INF").mkdirs()
 }
