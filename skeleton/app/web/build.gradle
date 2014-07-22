@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 // ############################################################################
 // Java Configuration
 // ############################################################################
-apply from: "$rootDir/gradle/java.gradle"
+apply from: "$rootDir/gradle/java/java.gradle"
 
 // ############################################################################
 // Dependencies
