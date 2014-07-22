@@ -18,7 +18,7 @@ buildscript {
 // ############################################################################
 // Java Configuration
 // ############################################################################
-apply from: "$rootDir/gradle/java/providedCompile.gradle"
+apply plugin: "war" 
 apply from: "$rootDir/gradle/java/java.gradle"
 
 // ############################################################################
