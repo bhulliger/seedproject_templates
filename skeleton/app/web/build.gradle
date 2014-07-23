@@ -1,26 +1,12 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 // ############################################################################
-// GWT Gradle Plugin
-// ############################################################################
-buildscript {
-    repositories {
-        maven {
-            url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/'
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
-    }
-}
-
-// ############################################################################
-// Java Configuration
+// Plugins
 // ############################################################################
 apply plugin: "java"
-apply plugin: "war" 
-apply from: "$rootDir/gradle/java/java.gradle"
+apply plugin: "war"
+apply plugin: "gwt"
+apply plugin: "com.terrafolio.jenkins" // CI
 
 // ############################################################################
 // Dependencies
@@ -44,94 +30,15 @@ dependencies {
 	providedCompile		group: 'com.googlecode.gwt-crypto', 	name: 'gwt-crypto', 			version: '2.3.0'
 }
 
+// ################################################################################
+// Project Initialization
+// ################################################################################
+apply from: "scaffold.gradle"
 
-// ############################################################################
-// GWT Build Tasks
-// ############################################################################
-apply from: "$rootDir/gradle/gwt.gradle"
-
-apply plugin: 'gwt'
-	
-gwt {
-    gwtVersion='2.7.0-SNAPSHOT'
-    
-    logLevel = 'INFO'
-
-    modules 	rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name
-    devModules 	rootProject.group + "." + rootProject.name + "." + project.name + "." + rootProject.name + "Dev"
-    
-    compiler {
-    	strict = true
-    	enableClosureCompiler = true
-    	disableClassMetadata = true
-    	disableCastChecking = true
-    }
-    
-	superDev { 
-		noPrecompile=true
-	}
-}
-
-// ############################################################################
-// Compile Task respecting apt
-// ############################################################################
-
-compileJava {
-	doFirst {
-		options.compilerArgs = [
-			'-s', sourceSets.generated.java.srcDirs.iterator().next()
-		]
-	}
-}
-
-
-// ############################################################################
-// Continous Integration
-// ############################################################################
-apply from: "$rootDir/gradle/jenkins.gradle"
-
-// ############################################################################
-// Packaging
-// ############################################################################
-processResources {
-	exclude "*.mdsd"
-}
-
-task createBuildInfoFile << {
-	description 'writes a build-info.properties file with version and timestamp'
-	def buildInfoFile = new File("$buildDir/build-info.properties")
-	Properties properties = new Properties()
-	properties.setProperty('version', project.version.toString())
-	properties.setProperty('timestamp', project.buildTimestamp)
-	properties.store(buildInfoFile.newWriter(), null)
-}
-
-apply plugin: "war"
-
-war {
-	dependsOn createBuildInfoFile
-
-	war.rootSpec.exclude "**/web/client/**"
-	war.rootSpec.exclude "org/fusesorce/**"
-
-	from(buildDir) {
-		include 'build-info.properties'
-		into('WEB-INF/classes')
-	}
-}
-
-war.doLast {
-	delete fileTree('./war')
-	ant.unzip(src: war.archivePath, dest: './war')
-}
-
-jar {
-	from project.sourceSets.main.allJava
-}
-
-processResources {
-	filter(ReplaceTokens, tokens: [ 'version': project.version.toString(), 'buildTime': buildTimestamp ] )
-	exclude '*.mdsd'
+initProject << {
+	webAppDir.mkdirs()
+	new File(webAppDir.toString() + "/WEB-INF").mkdirs()
+	new File(webAppDir.toString() + "/META-INF").mkdirs()
 }
 
 // ############################################################################
@@ -164,16 +71,4 @@ eclipse {
 			resource sourcePath: '/src/main/webapp', deployPath: '/'
 		}
 	}
-}
-
-
-// ################################################################################
-// Project Initialization
-// ################################################################################
-apply from: "scaffold.gradle"
-
-initProject {
-	webAppDir.mkdirs()
-	new File(webAppDir.toString() + "/WEB-INF").mkdirs()
-	new File(webAppDir.toString() + "/META-INF").mkdirs()
 }

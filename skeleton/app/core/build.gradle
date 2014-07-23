@@ -1,10 +1,10 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 // ############################################################################
-// Java Configuration
+// Required Plugins
 // ############################################################################
 apply plugin: "java"
-apply from: "$rootDir/gradle/java/java.gradle"
+apply plugin: com.googlecode.flyway.gradle.FlywayPlugin // DB
 
 // ############################################################################
 // Dependencies
@@ -23,11 +23,6 @@ apply from: 'scaffold.gradle'
 // Query DSL Generation
 // ############################################################################
 apply from: "$rootDir/gradle/querydsl.gradle"
-
-// ############################################################################
-// Database
-// ############################################################################
-apply from: "$rootDir/gradle/flyway.gradle"
 
 // ############################################################################
 // Eclipse Project Nature for generated sources

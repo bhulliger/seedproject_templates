@@ -1,32 +1,8 @@
 // ############################################################################
-// Configurations & Buildscript
-// ############################################################################
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.2'
-    }
-}
-
-configurations {
-	apt
-}
-
-// ############################################################################
-// Android Base Configuration
+// Required Plugins
 // ############################################################################
 apply plugin: "android"
-
-apply from: "$rootDir/gradle/android/android.gradle"
-
-// ############################################################################
-// Continous Integration
-// ############################################################################
-apply from: "$rootDir/gradle/jenkins.gradle"
-
+apply plugin: "com.terrafolio.jenkins" // CI
 
 // ############################################################################
 // Eclipse Project Nature for generated sources
