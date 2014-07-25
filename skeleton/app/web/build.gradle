@@ -18,7 +18,7 @@ apply from: "$rootDir/gradle/java/sourcesets.gradle"
 // ############################################################################
 dependencies {
 	// project dependencies
-	compile project(':app:core')
+	compile project(':shared:core')
 
 	// FIXME tell gwt that there are source files in the generated source sets too.
 	compile files(sourceSets.generated.java.srcDirs) 
