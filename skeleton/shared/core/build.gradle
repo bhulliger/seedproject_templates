@@ -15,7 +15,7 @@ dependencies {
 }
 
 // ############################################################################
-// Scaffolding of project structure
+// Scaffolding of project
 // ############################################################################
 apply from: 'scaffold.gradle'
 
