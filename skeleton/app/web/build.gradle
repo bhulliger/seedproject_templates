@@ -41,24 +41,6 @@ dependencies {
 apply from: "scaffold.gradle"
 
 // ############################################################################
-// Project Initialization
-// ############################################################################
-
-initProject << {
-
-	sourceSets*.java.srcDirs*.each {
-		new File(it.toString() + "/" + rootProject.group.replaceAll("\\.", "/") + "/" + rootProject.name + "/" + project.name).mkdirs()
-	}
-	sourceSets*.resources.srcDirs*.each {
-		new File(it.toString() + "/" + rootProject.group.replaceAll("\\.", "/") + "/" + rootProject.name + "/" + project.name).mkdirs()
-	}
-
-	webAppDir.mkdirs()
-	new File(webAppDir.toString() + "/WEB-INF").mkdirs()
-	new File(webAppDir.toString() + "/META-INF").mkdirs()
-}
-
-// ############################################################################
 // Eclipse Project Nature for generated sources
 // ############################################################################
 eclipse {
