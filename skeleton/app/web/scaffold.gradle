@@ -35,11 +35,7 @@ scaffold << {
 	new File(webAppDir.toString() + "/sticky-footer-navbar.css").text = file(ext.templateBasePath + 'sticky-footer-navbar.css').text
 
 	// build classname for entryPoint
-	char[] rootProjectArray = rootProject.name.toCharArray();
-	rootProjectArray[0] = Character.toUpperCase(rootProjectArray[0]);
-	char[] projectArray = project.name.toCharArray();
-	projectArray[0] = Character.toUpperCase(projectArray[0]);
-	def entryPointClassName =  new String(rootProjectArray) + new String(projectArray);
+	def entryPointClassName = rootProject.name.capitalize() + project.name.capitalize();
 	
 	def srcFolder = sourceSets.main.java.srcDirs[0].toString() + "/"
 	def resourcesFolder = sourceSets.main.resources.srcDirs[0].toString() + "/"
