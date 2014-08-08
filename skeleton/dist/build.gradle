@@ -150,6 +150,7 @@ task distZip(type: Zip, dependsOn: ":app:web:war")  {
 // ############################################################################
 // Clean up artifacts
 // ############################################################################
+/*
 task cleanArtifacts(type: helper.CleanUpArtifactory) {
 
 	serverUrl = config.artifactRepository.url
@@ -161,3 +162,4 @@ task cleanArtifacts(type: helper.CleanUpArtifactory) {
 	dryRun = false
 
 }
+*/
