@@ -15,6 +15,7 @@ sonarRunner {
 // ############################################################################
 // Dependencies
 // ############################################################################
+
 dependencies {
 	// Flyway
 	flywayJar	group: 	'org.flywaydb', 	name: 'flyway-gradle-plugin',  	version: '3.+'
@@ -22,17 +23,16 @@ dependencies {
 	flywayJar	group: 	'org.flywaydb', 	name: 'flyway-core',  			version: '3.+'
 
 	// HsqlDB
-	flywayJar 	group: 	'org.hsqldb',		name: 'hsqldb', 				version: '2.3.+'
+	// flywayJar 	group: 	'org.hsqldb',		name: 'hsqldb', 				version: '2.3.+'
 
 	// Oracle JDBC
-	flywayJar 	group: 	'oracle', 			name: 'jdbc',					version: '6.0'
+	// flywayJar 	group: 	'oracle', 			name: 'jdbc',					version: '6.0'
 }
 
 // ############################################################################
 // Distribution && Installation
 // ############################################################################
-apply from: "$rootDir/gradle/uploadArtifact.gradle"
-apply from: "$rootDir/gradle/install.gradle"
+evaluationDependsOn ":app:web"
 
 task distZip(type: Zip, dependsOn: ":app:web:war")  {
 
@@ -92,7 +92,7 @@ task distZip(type: Zip, dependsOn: ":app:web:war")  {
 		from "src/main/resources/scripts/$config.os.type"
 		exclude '*.bat,*.cmd'
 		fileMode 0755
-		filter(ReplaceTokens, tokens: tokens)
+		// filter(ReplaceTokens, tokens: tokens)
 		filter(FixCrLfFilter, 
 			eol: FixCrLfFilter.CrLf.newInstance('lf'),
             tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
