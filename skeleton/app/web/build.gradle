@@ -9,30 +9,35 @@ apply plugin: "gwt"
 apply plugin: "com.terrafolio.jenkins" // CI
 
 // ############################################################################
-// Source Sets
+// Source Sets & BuildScript
 // ############################################################################
-apply from: "$rootDir/gradle/java/sourcesets.gradle"
+sourceSets {
+    generated {
+        java {
+            srcDir 'src/generated/java'
+        }
+    }	
+}
 
 // ############################################################################
 // Dependencies
 // ############################################################################
 dependencies {
 	// project dependencies
-	compile project(':shared:core')
+	compile project(':app:core')
 
 	// FIXME tell gwt that there are source files in the generated source sets too.
 	compile files(sourceSets.generated.java.srcDirs) 
 
 	// dozer
-	compile 			group: 'net.sf.dozer', 					name: 'dozer',					version: '5.5.+'
+	compile 			libraries.dozer
 
 	// GWT Bootstrap for layouting
-	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3', 			version: '0.7'
-	providedCompile 	group: 'org.gwtbootstrap3',				name: 'gwtbootstrap3-extras',	version: '0.7'
+	providedCompile 	libraries.gwtbootstrap
 	
 	// GWTP
-	providedCompile		group: 'com.gwtplatform', 				name: 'gwtp-all', 				version: '1.3'
-	providedCompile		group: 'com.googlecode.gwt-crypto', 	name: 'gwt-crypto', 			version: '2.3.0'
+	providedCompile		libraries.gwtp
+	providedCompile		libraries.gwtcrypto
 }
 
 // ############################################################################

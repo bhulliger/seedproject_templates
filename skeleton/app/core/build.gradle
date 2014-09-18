@@ -11,18 +11,13 @@ apply plugin: com.googlecode.flyway.gradle.FlywayPlugin // DB
 // ############################################################################
 dependencies {
 	// Hibernate & JPA 2
-	compile		group: 'javax',						name: 'javaee-api', 			version: '7.0'
+	compile		libraries.javaee_api
 }
 
 // ############################################################################
 // Scaffolding of project
 // ############################################################################
 apply from: 'scaffold.gradle'
-
-// ############################################################################
-// Query DSL Generation
-// ############################################################################
-apply from: "$rootDir/gradle/querydsl.gradle"
 
 // ############################################################################
 // Eclipse Project Nature for generated sources
