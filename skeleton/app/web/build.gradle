@@ -1,49 +1,21 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 // ############################################################################
-// Plugins
+// Plugins & Build Systems
 // ############################################################################
-apply plugin: "java"
-apply plugin: "war"
-apply plugin: "gwt"
-apply plugin: "com.terrafolio.jenkins" // CI
-
-// ############################################################################
-// Source Sets & BuildScript
-// ############################################################################
-sourceSets {
-    generated {
-        java {
-            srcDir 'src/generated/java'
-        }
-    }	
+plugins {
+	id 'com.terrafolio.jenkins' version '1.2.3'
 }
+
+apply plugin: 'java'
+apply plugin: 'war'
 
 // ############################################################################
 // Dependencies
 // ############################################################################
 dependencies {
-	// project dependencies
-	compile project(':app:core')
-
-	// FIXME tell gwt that there are source files in the generated source sets too.
-	compile files(sourceSets.generated.java.srcDirs) 
-
-	// dozer
-	compile 			libraries.dozer
-
-	// GWT Bootstrap for layouting
-	providedCompile 	libraries.gwtbootstrap
-	
-	// GWTP
-	providedCompile		libraries.gwtp
-	providedCompile		libraries.gwtcrypto
+	// TODO
 }
-
-// ############################################################################
-// Project Scaffolding
-// ############################################################################
-apply from: "scaffold.gradle"
 
 // ############################################################################
 // Eclipse Project Nature for generated sources
