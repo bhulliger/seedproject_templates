@@ -3,6 +3,10 @@ import org.apache.tools.ant.filters.ReplaceTokens
 // ############################################################################
 // Plugins & Build Systems
 // ############################################################################
+plugins {
+	id 'com.github.samueltbrown.cucumber' version '0.8'
+}
+
 apply plugin: 'java'
 
 // ############################################################################
